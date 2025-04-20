@@ -1,6 +1,23 @@
 # Alunify
 
-Alumni networking platform built with Django.
+Alunify is a comprehensive alumni networking platform built with Django 5.0. The platform helps connect graduates, facilitates professional networking, and enables alumni to showcase their skills and experiences.
+
+## Features
+
+- **User Management**: Custom Alumni user model with extended profile information
+- **Profile System**: Detailed alumni profiles with education, work experience, skills, and professional categorization
+- **Search Functionality**: Advanced search capabilities to find alumni by various criteria
+- **Responsive Design**: Mobile-friendly interface built with modern frontend techniques
+- **Secure Authentication**: Robust login, registration, and password reset functionality
+- **Media Support**: Profile pictures and other media uploads
+
+## Project Structure
+
+The application consists of the following main components:
+
+- **user**: Custom user authentication and Alumni model
+- **profiles**: Profile management, experiences, education, skills, and professions
+- **search**: Alumni search and query tracking functionality
 
 ## Setup and Installation
 
@@ -69,13 +86,13 @@ The application will automatically use PostgreSQL when the `DATABASE_URL` enviro
    ```
    DEBUG=False
    SECRET_KEY=<your-secure-secret-key>
-   ALLOWED_HOSTS=yourdomain.com,www.yourdomain.com
+   ALLOWED_HOSTS=yourdomain.com,www.yourdomain.com,alunify.onrender.com
    DATABASE_URL=postgres://username:password@host:port/database_name
    ```
 
 2. Collect static files:
    ```
-   python manage.py collectstatic
+   python manage.py collectstatic --no-input
    ```
 
 3. Run migrations:
@@ -83,9 +100,38 @@ The application will automatically use PostgreSQL when the `DATABASE_URL` enviro
    python manage.py migrate
    ```
 
-### Deploy to a Hosting Platform
+### Deploy to Render.com
 
-Follow the specific instructions for your hosting platform (Heroku, AWS, etc.) for deploying Django applications.
+The application is configured for deployment on Render.com:
+
+1. Create a new Web Service on Render
+2. Connect your GitHub repository
+3. Configure environment variables as listed above
+4. Set the build command: `pip install -r requirements.txt`
+5. Set the start command: `gunicorn alunify.wsgi:application`
+
+## Development
+
+### Adding New Features
+
+1. Create a new branch for your feature
+2. Implement and test your changes
+3. Submit a pull request for review
+
+### Testing
+
+Run the test suite with:
+```
+python manage.py test
+```
+
+## Technologies Used
+
+- **Backend**: Django 5.0+
+- **Database**: SQLite (development), PostgreSQL (production)
+- **Media Storage**: Local filesystem
+- **Frontend**: HTML, CSS, JavaScript
+- **Deployment**: Render.com
 
 ## License
 
