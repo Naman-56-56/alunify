@@ -1,278 +1,198 @@
+{% extends 'profiles/base_profile.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Network | Alumni Connect Portal</title>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
-</head>
-<body>
-    <header>
-        <div class="container">
-            <div class="logo">
-                <h1>Alumni<span>Connect</span></h1>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="{% url 'index' %}">Home</a></li>
-                    <li><a href="{% url 'profile' %}">Profiles</a></li>
-                    <li><a href="{% url 'connections' %}" class="active">Network</a></li>
-                    <li><a href="{% url 'events' %}">Events</a></li>
-                    <li><a href="{% url 'contribute' %}">Contribute</a></li>
-                </ul>
-            </nav>
-            <div class="auth-buttons">
-                <button class="btn login-btn">Login</button>
-                <button class="btn signup-btn">Sign Up</button>
-            </div>
-            <div class="mobile-menu-btn">
-                <span></span>
-                <span></span>
-                <span></span>
+
+{% block title %}Network | Alumni Connect Portal{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'connections.css' %}">
+{% endblock %}
+
+{% block nav_network %}class="active"{% endblock %}
+
+{% block page_title %}Alumni Network{% endblock %}
+{% block page_subtitle %}Connect with fellow alumni and build your professional network{% endblock %}
+
+{% block main_content %}
+<section class="connections-section">
+    <div class="container">
+        <div class="connections-tabs">
+            <button class="tab-btn active" data-tab="my-connections">My Connections</button>
+            <button class="tab-btn" data-tab="connection-requests">Connection Requests</button>
+            <button class="tab-btn" data-tab="suggested-connections">Suggested Connections</button>
+        </div>
+
+        <div class="tab-content active" id="my-connections">
+            <div class="connections-empty">
+                <img src="{% static 'images/network-icon.svg' %}" alt="Network" class="empty-icon">
+                <h3>No Connections Yet</h3>
+                <p>Start building your alumni network by connecting with fellow graduates.</p>
+                <a href="{% url 'profile_list' %}" class="btn primary-btn">Find Alumni</a>
             </div>
         </div>
-    </header>
 
-    <section class="page-header">
-        <div class="container">
-            <h1>Alumni Network</h1>
-            <p>Connect with fellow alumni and build your professional network</p>
-        </div>
-    </section>
-
-    <section class="connections-section">
-        <div class="container">
-            <div class="connections-tabs">
-                <button class="tab-btn active" data-tab="my-connections">My Connections</button>
-                <button class="tab-btn" data-tab="connection-requests">Connection Requests</button>
-                <button class="tab-btn" data-tab="suggested-connections">Suggested Connections</button>
-            </div>
-
-            <div class="tab-content active" id="my-connections">
-                <div class="connections-empty">
-                    <img src="{% static 'images/network-icon.svg' %}" alt="Network" class="empty-icon">
-                    <h3>No Connections Yet</h3>
-                    <p>Start building your alumni network by connecting with fellow graduates.</p>
-                    <button class="btn primary-btn">Find Alumni</button>
-                </div>
-            </div>
-
-            <div class="tab-content" id="connection-requests">
-                <div class="connections-list">
-                    <div class="connection-card">
-                        <div class="connection-avatar">
-                            <img src="{% static 'images/default-avatar.jpg' %}" alt="Connection">
-                        </div>
-                        <div class="connection-info">
-                            <h3>Michael Johnson</h3>
-                            <p>Class of 2018, Business Administration</p>
-                            <p>Marketing Director at Global Corp</p>
-                            <p>New York, NY</p>
-                        </div>
-                        <div class="connection-actions">
-                            <button class="btn primary-btn">Accept</button>
-                            <button class="btn secondary-btn">Decline</button>
-                        </div>
+        <div class="tab-content" id="connection-requests">
+            <div class="connections-list">
+                <div class="connection-card">
+                    <div class="connection-avatar">
+                        <img src="{% static 'images/default-avatar.jpg' %}" alt="Connection">
                     </div>
-
-                    <div class="connection-card">
-                        <div class="connection-avatar">
-                            <img src="{% static 'images/default-avatar.jpg' %}" alt="Connection">
-                        </div>
-                        <div class="connection-info">
-                            <h3>Emily Rodriguez</h3>
-                            <p>Class of 2015, Computer Science</p>
-                            <p>Software Engineer at Tech Innovations</p>
-                            <p>San Francisco, CA</p>
-                        </div>
-                        <div class="connection-actions">
-                            <button class="btn primary-btn">Accept</button>
-                            <button class="btn secondary-btn">Decline</button>
-                        </div>
+                    <div class="connection-info">
+                        <h3>Michael Johnson</h3>
+                        <p>Class of 2018, Business Administration</p>
+                        <p>Marketing Director at Global Corp</p>
+                        <p>New York, NY</p>
                     </div>
-                </div>
-            </div>
-
-            <div class="tab-content" id="suggested-connections">
-                <div class="filter-bar">
-                    <div class="filter-group">
-                        <label for="filter-department">Department</label>
-                        <select id="filter-department">
-                            <option value="">All Departments</option>
-                            <option value="cs">Computer Science</option>
-                            <option value="business">Business</option>
-                            <option value="engineering">Engineering</option>
-                            <option value="arts">Arts & Humanities</option>
-                            <option value="science">Science</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label for="filter-graduation">Graduation Year</label>
-                        <select id="filter-graduation">
-                            <option value="">All Years</option>
-                            <option value="recent">2020-2025</option>
-                            <option value="2015">2015-2019</option>
-                            <option value="2010">2010-2014</option>
-                            <option value="2005">2005-2009</option>
-                            <option value="2000">Before 2005</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label for="filter-industry">Industry</label>
-                        <select id="filter-industry">
-                            <option value="">All Industries</option>
-                            <option value="tech">Technology</option>
-                            <option value="finance">Finance</option>
-                            <option value="healthcare">Healthcare</option>
-                            <option value="education">Education</option>
-                            <option value="media">Media & Entertainment</option>
-                        </select>
-                    </div>
-                    <button class="btn filter-btn">Apply Filters</button>
-                </div>
-
-                <div class="connections-grid">
-                    <div class="connection-card">
-                        <div class="connection-avatar">
-                            <img src="{% static 'images/default-avatar.jpg' %}" alt="Connection">
-                        </div>
-                        <div class="connection-info">
-                            <h3>David Wilson</h3>
-                            <p>Class of 2012, Engineering</p>
-                            <p>Product Manager at Tech Solutions</p>
-                            <p>Seattle, WA</p>
-                        </div>
-                        <div class="connection-actions">
-                            <button class="btn primary-btn">Connect</button>
-                            <button class="btn secondary-btn">View Profile</button>
-                        </div>
-                    </div>
-
-                    <div class="connection-card">
-                        <div class="connection-avatar">
-                            <img src="{% static 'images/default-avatar.jpg' %}" alt="Connection">
-                        </div>
-                        <div class="connection-info">
-                            <h3>Sophia Lee</h3>
-                            <p>Class of 2016, Business</p>
-                            <p>Financial Analyst at Investment Group</p>
-                            <p>Chicago, IL</p>
-                        </div>
-                        <div class="connection-actions">
-                            <button class="btn primary-btn">Connect</button>
-                            <button class="btn secondary-btn">View Profile</button>
-                        </div>
-                    </div>
-
-                    <div class="connection-card">
-                        <div class="connection-avatar">
-                            <img src="images/default-avatar.jpg" alt="Connection">
-                        </div>
-                        <div class="connection-info">
-                            <h3>James Taylor</h3>
-                            <p>Class of 2014, Computer Science</p>
-                            <p>Data Scientist at Analytics Inc.</p>
-                            <p>Austin, TX</p>
-                        </div>
-                        <div class="connection-actions">
-                            <button class="btn primary-btn">Connect</button>
-                            <button class="btn secondary-btn">View Profile</button>
-                        </div>
-                    </div>
-
-                    <div class="connection-card">
-                        <div class="connection-avatar">
-                            <img src="images/default-avatar.jpg" alt="Connection">
-                        </div>
-                        <div class="connection-info">
-                            <h3>Olivia Martinez</h3>
-                            <p>Class of 2017, Marketing</p>
-                            <p>Brand Manager at Consumer Goods</p>
-                            <p>Los Angeles, CA</p>
-                        </div>
-                        <div class="connection-actions">
-                            <button class="btn primary-btn">Connect</button>
-                            <button class="btn secondary-btn">View Profile</button>
-                        </div>
+                    <div class="connection-actions">
+                        <button class="btn primary-btn">Accept</button>
+                        <button class="btn secondary-btn">Decline</button>
                     </div>
                 </div>
 
-                <div class="pagination">
-                    <button class="pagination-btn" disabled>Previous</button>
-                    <span class="pagination-info">Page 1 of 5</span>
-                    <button class="pagination-btn">Next</button>
+                <div class="connection-card">
+                    <div class="connection-avatar">
+                        <img src="{% static 'images/default-avatar.jpg' %}" alt="Connection">
+                    </div>
+                    <div class="connection-info">
+                        <h3>Emily Rodriguez</h3>
+                        <p>Class of 2015, Computer Science</p>
+                        <p>Software Engineer at Tech Innovations</p>
+                        <p>San Francisco, CA</p>
+                    </div>
+                    <div class="connection-actions">
+                        <button class="btn primary-btn">Accept</button>
+                        <button class="btn secondary-btn">Decline</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
 
-    <section class="mentorship-section">
-        <div class="container">
-            <div class="mentorship-content">
-                <h2>Mentorship Program</h2>
-                <p>Share your knowledge and experience with current students and recent graduates, or find a mentor to guide you in your career journey.</p>
-                <div class="mentorship-buttons">
-                    <button class="btn primary-btn">Become a Mentor</button>
-                    <button class="btn secondary-btn">Find a Mentor</button>
+        <div class="tab-content" id="suggested-connections">
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <label for="filter-department">Department</label>
+                    <select id="filter-department">
+                        <option value="">All Departments</option>
+                        <option value="cs">Computer Science</option>
+                        <option value="business">Business</option>
+                        <option value="engineering">Engineering</option>
+                        <option value="arts">Arts & Humanities</option>
+                        <option value="science">Science</option>
+                    </select>
                 </div>
+                <div class="filter-group">
+                    <label for="filter-graduation">Graduation Year</label>
+                    <select id="filter-graduation">
+                        <option value="">All Years</option>
+                        <option value="recent">2020-2025</option>
+                        <option value="2015">2015-2019</option>
+                        <option value="2010">2010-2014</option>
+                        <option value="2005">2005-2009</option>
+                        <option value="2000">Before 2005</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filter-industry">Industry</label>
+                    <select id="filter-industry">
+                        <option value="">All Industries</option>
+                        <option value="tech">Technology</option>
+                        <option value="finance">Finance</option>
+                        <option value="healthcare">Healthcare</option>
+                        <option value="education">Education</option>
+                        <option value="media">Media & Entertainment</option>
+                    </select>
+                </div>
+                <button class="btn filter-btn">Apply Filters</button>
             </div>
-        </div>
-    </section>
 
-    <footer>
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-about">
-                    <h3>Alumni<span>Connect</span></h3>
-                    <p>Connecting alumni, building communities, and fostering lifelong relationships with your alma mater.</p>
-                    <div class="social-links">
-                        <a href="#" class="social-link">Facebook</a>
-                        <a href="#" class="social-link">Twitter</a>
-                        <a href="#" class="social-link">LinkedIn</a>
-                        <a href="#" class="social-link">Instagram</a>
+            <div class="connections-grid">
+                <div class="connection-card">
+                    <div class="connection-avatar">
+                        <img src="{% static 'images/default-avatar.jpg' %}" alt="Connection">
+                    </div>
+                    <div class="connection-info">
+                        <h3>David Wilson</h3>
+                        <p>Class of 2012, Engineering</p>
+                        <p>Product Manager at Tech Solutions</p>
+                        <p>Seattle, WA</p>
+                    </div>
+                    <div class="connection-actions">
+                        <button class="btn primary-btn">Connect</button>
+                        <button class="btn secondary-btn">View Profile</button>
                     </div>
                 </div>
-                <div class="footer-links">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="{% url 'index' %}">Home</a></li>
-                        <li><a href="{% url 'profile' %}">Profiles</a></li>
-                        <li><a href="{% url 'connections' %}">Network</a></li>
-                        <li><a href="{% url 'events' %}">Events</a></li>
-                        <li><a href="{% url 'contribute' %}">Contribute</a></li>
-                    </ul>
+
+                <div class="connection-card">
+                    <div class="connection-avatar">
+                        <img src="{% static 'images/default-avatar.jpg' %}" alt="Connection">
+                    </div>
+                    <div class="connection-info">
+                        <h3>Sophia Lee</h3>
+                        <p>Class of 2016, Business</p>
+                        <p>Financial Analyst at Investment Group</p>
+                        <p>Chicago, IL</p>
+                    </div>
+                    <div class="connection-actions">
+                        <button class="btn primary-btn">Connect</button>
+                        <button class="btn secondary-btn">View Profile</button>
+                    </div>
                 </div>
-                <div class="footer-links">
-                    <h4>Resources</h4>
-                    <ul>
-                        <li><a href="#">Career Resources</a></li>
-                        <li><a href="#">Mentorship Program</a></li>
-                        <li><a href="#">Scholarship Opportunities</a></li>
-                        <li><a href="#">Alumni Directory</a></li>
-                    </ul>
+
+                <div class="connection-card">
+                    <div class="connection-avatar">
+                        <img src="{% static 'images/default-avatar.jpg' %}" alt="Connection">
+                    </div>
+                    <div class="connection-info">
+                        <h3>James Taylor</h3>
+                        <p>Class of 2014, Computer Science</p>
+                        <p>Data Scientist at Analytics Inc.</p>
+                        <p>Austin, TX</p>
+                    </div>
+                    <div class="connection-actions">
+                        <button class="btn primary-btn">Connect</button>
+                        <button class="btn secondary-btn">View Profile</button>
+                    </div>
                 </div>
-                <div class="footer-contact">
-                    <h4>Contact Us</h4>
-                    <p>Alumni Relations Office</p>
-                    <p>123 University Avenue</p>
-                    <p>City, State 12345</p>
-                    <p>Email: alumni@university.edu</p>
-                    <p>Phone: (123) 456-7890</p>
+
+                <div class="connection-card">
+                    <div class="connection-avatar">
+                        <img src="{% static 'images/default-avatar.jpg' %}" alt="Connection">
+                    </div>
+                    <div class="connection-info">
+                        <h3>Olivia Martinez</h3>
+                        <p>Class of 2017, Marketing</p>
+                        <p>Brand Manager at Consumer Goods</p>
+                        <p>Los Angeles, CA</p>
+                    </div>
+                    <div class="connection-actions">
+                        <button class="btn primary-btn">Connect</button>
+                        <button class="btn secondary-btn">View Profile</button>
+                    </div>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Alumni Connect Portal. All rights reserved.</p>
-                <div class="footer-bottom-links">
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                    <a href="#">Cookie Policy</a>
-                </div>
+
+            <div class="pagination">
+                <button class="pagination-btn" disabled>Previous</button>
+                <span class="pagination-info">Page 1 of 5</span>
+                <button class="pagination-btn">Next</button>
             </div>
         </div>
-    </footer>
+    </div>
+</section>
 
-    <script src="js/main.js"></script>
-</body>
-</html>
+<section class="mentorship-section">
+    <div class="container">
+        <div class="mentorship-content">
+            <h2>Mentorship Program</h2>
+            <p>Share your knowledge and experience with current students and recent graduates, or find a mentor to guide you in your career journey.</p>
+            <div class="mentorship-buttons">
+                <button class="btn primary-btn">Become a Mentor</button>
+                <button class="btn secondary-btn">Find a Mentor</button>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'connections.js' %}"></script>
+{% endblock %}

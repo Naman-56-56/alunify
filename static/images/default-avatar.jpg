@@ -1,0 +1,8 @@
+This is a placeholder file for the default avatar image.
+
+To implement the default avatar image:
+1. Create or obtain a square profile image (preferably 200x200 pixels)
+2. Save it as "default-avatar.jpg" 
+3. Place it in this directory (static/images/)
+
+The default avatar is used when a user doesn't have a profile picture. 

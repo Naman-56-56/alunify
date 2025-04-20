@@ -9,6 +9,8 @@ urlpatterns = [
     path('add-education/', views.add_education, name='add_education'),
     path('add-skill/', views.add_skill, name='add_skill'),
     path('remove-skill/<int:skill_id>/', views.remove_skill, name='remove_skill'),
+    path('add-profession/', views.add_profession, name='add_profession'),
+    path('remove-profession/<int:profession_id>/', views.remove_profession, name='remove_profession'),
     path('search/', views.search_alumni, name='search_alumni'),
     path('<int:alumni_id>/', views.profile_detail, name='profile_detail'),
 ] 

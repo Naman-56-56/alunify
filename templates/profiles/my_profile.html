@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile | Alumni Connect Portal</title>
+    <title>My Profile | {% if is_student %}Student{% else %}Alumni{% endif %} Connect Portal</title>
     <link rel="stylesheet" href="{% static 'styles.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
 </head>
@@ -12,7 +12,7 @@
     <header>
         <div class="container">
             <div class="logo">
-                <h1>Alumni<span>Connect</span></h1>
+                <h1>{% if is_student %}Student{% else %}Alumni{% endif %}<span>Connect</span></h1>
             </div>
             <nav>
                 <ul>
@@ -38,7 +38,7 @@
     <section class="page-header">
         <div class="container">
             <h1>My Profile</h1>
-            <p>Manage your alumni profile and network with others</p>
+            <p>{% if is_student %}Manage your student profile and connect with alumni{% else %}Manage your alumni profile and network with others{% endif %}</p>
         </div>
     </section>
 
@@ -71,11 +71,16 @@
                     </div>
                     <div class="profile-info">
                         <h2>{{ alumni.get_full_name }}</h2>
-                        <p class="profile-title">{{ alumni.current_position }}{% if alumni.company %} at {{ alumni.company }}{% endif %}</p>
-                        {% if alumni.location %}
-                            <p class="profile-location">{{ alumni.location }}</p>
+                        {% if is_student %}
+                            <p class="profile-title">Current Student</p>
+                            <p class="profile-graduation">Expected Graduation: {{ alumni.graduation_year }}, {{ alumni.department }}</p>
+                        {% else %}
+                            <p class="profile-title">{{ alumni.current_position }}{% if alumni.company %} at {{ alumni.company }}{% endif %}</p>
+                            {% if alumni.location %}
+                                <p class="profile-location">{{ alumni.location }}</p>
+                            {% endif %}
+                            <p class="profile-graduation">Class of {{ alumni.graduation_year }}, {{ alumni.department }}</p>
                         {% endif %}
-                        <p class="profile-graduation">Class of {{ alumni.graduation_year }}, {{ alumni.department }}</p>
                         <div class="profile-social">
                             {% if alumni.linkedin_url %}
                                 <a href="{{ alumni.linkedin_url }}" target="_blank" class="social-icon linkedin">LinkedIn</a>
@@ -104,6 +109,7 @@
                         </div>
                     {% endif %}
                     
+                    {% if not is_student %}
                     <div class="profile-section">
                         <h3>Experience</h3>
                         {% if experiences %}
@@ -129,6 +135,7 @@
                         {% endif %}
                         <a href="{% url 'add_experience' %}" class="btn add-item-btn">Add Experience</a>
                     </div>
+                    {% endif %}
                     
                     <div class="profile-section">
                         <h3>Education</h3>
@@ -172,6 +179,16 @@
                         {% endif %}
                         <a href="{% url 'add_skill' %}" class="btn add-item-btn">Add Skills</a>
                     </div>
+
+                    {% if is_student %}
+                    <div class="profile-section">
+                        <h3>Interests</h3>
+                        <div class="interests-section">
+                            <p class="empty-section">Add your career interests to help alumni connect with you.</p>
+                            <a href="{% url 'edit_profile' %}" class="btn add-item-btn">Add Interests</a>
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -181,7 +198,7 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-about">
-                    <h3>Alumni<span>Connect</span></h3>
+                    <h3>{% if is_student %}Student{% else %}Alumni{% endif %}<span>Connect</span></h3>
                     <p>Connecting alumni, building communities, and fostering lifelong relationships with your alma mater.</p>
                     <div class="social-links">
                         <a href="#" class="social-link">Facebook</a>

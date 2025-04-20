@@ -9,6 +9,15 @@
 {% block content %}
 <form method="post" action="{% url 'register' %}" class="auth-form">
     {% csrf_token %}
+    <div class="form-group user-type-selector">
+        <label>I am a:</label>
+        <div class="radio-group">
+            <input type="radio" id="is_alumni" name="user_type" value="alumni" checked>
+            <label for="is_alumni">Alumni</label>
+            <input type="radio" id="is_student" name="user_type" value="student">
+            <label for="is_student">Current Student</label>
+        </div>
+    </div>
     <div class="form-group">
         <label for="full_name">Full Name</label>
         <input type="text" id="full_name" name="full_name" required>
@@ -17,9 +26,13 @@
         <label for="email">Email</label>
         <input type="email" id="email" name="email" required>
     </div>
-    <div class="form-group">
+    <div class="form-group alumni-field">
         <label for="graduation_year">Graduation Year</label>
         <input type="number" id="graduation_year" name="graduation_year" min="1900" max="2025" required>
+    </div>
+    <div class="form-group student-field" style="display:none;">
+        <label for="expected_graduation_year">Expected Graduation Year</label>
+        <input type="number" id="expected_graduation_year" name="expected_graduation_year" min="2024" max="2030">
     </div>
     <div class="form-group">
         <label for="department">Department</label>
@@ -43,6 +56,33 @@
     </div>
     <button type="submit" class="btn primary-btn">Create Account</button>
 </form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const alumniRadio = document.getElementById('is_alumni');
+        const studentRadio = document.getElementById('is_student');
+        const alumniFields = document.querySelectorAll('.alumni-field');
+        const studentFields = document.querySelectorAll('.student-field');
+        
+        alumniRadio.addEventListener('change', function() {
+            if(this.checked) {
+                alumniFields.forEach(field => field.style.display = 'block');
+                studentFields.forEach(field => field.style.display = 'none');
+                document.getElementById('graduation_year').setAttribute('required', '');
+                document.getElementById('expected_graduation_year').removeAttribute('required');
+            }
+        });
+        
+        studentRadio.addEventListener('change', function() {
+            if(this.checked) {
+                alumniFields.forEach(field => field.style.display = 'none');
+                studentFields.forEach(field => field.style.display = 'block');
+                document.getElementById('graduation_year').removeAttribute('required');
+                document.getElementById('expected_graduation_year').setAttribute('required', '');
+            }
+        });
+    });
+</script>
 {% endblock %}
 
 {% block footer %}

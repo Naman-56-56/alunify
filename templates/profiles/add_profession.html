@@ -1,0 +1,53 @@
+{% extends 'profiles/base_profile.html' %}
+{% load static %}
+
+{% block title %}Add Profession | Alumni Connect Portal{% endblock %}
+
+{% block nav_profiles %}class="active"{% endblock %}
+
+{% block page_title %}Add Profession{% endblock %}
+{% block page_subtitle %}Add your profession to complete your alumni profile{% endblock %}
+
+{% block main_content %}
+<section class="profile-section">
+    <div class="container">
+        <div class="profile-tabs">
+            <a href="{% url 'profile_list' %}" class="tab-btn">Alumni Directory</a>
+            <a href="{% url 'search_alumni' %}" class="tab-btn">Search Alumni</a>
+            <a href="{% url 'my_profile' %}" class="tab-btn">My Profile</a>
+        </div>
+
+        <div class="form-card">
+            <h2>Add Your Profession</h2>
+            <form method="post" class="profile-form">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="category">Professional Category</label>
+                    <select id="category" name="category" required>
+                        <option value="" disabled selected>Select a category</option>
+                        {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="specific_role">Your Specific Role</label>
+                    <input type="text" id="specific_role" name="specific_role" placeholder="e.g. Frontend Developer, Marketing Manager" required>
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="is_primary" name="is_primary">
+                    <label for="is_primary">This is my primary profession</label>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn primary-btn">Add Profession</button>
+                    <a href="{% url 'my_profile' %}" class="btn secondary-btn">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %} 

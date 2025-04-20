@@ -1,201 +1,129 @@
+{% extends 'profiles/base_profile.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ alumni.get_full_name }} | Alumni Connect Portal</title>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
-</head>
-<body>
-    <header>
-        <div class="container">
-            <div class="logo">
-                <h1>Alumni<span>Connect</span></h1>
+
+{% block title %}{{ alumni.get_full_name }} | Alumni Connect Portal{% endblock %}
+
+{% block nav_profiles %}class="active"{% endblock %}
+
+{% block main_content %}
+<section class="profile-detail">
+    <div class="container">
+        <div class="back-link">
+            <a href="{% url 'profile_list' %}"><i class="fas fa-arrow-left"></i> Back to Alumni Directory</a>
+        </div>
+        
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    {% if alumni.profile_picture %}
+                        <img src="{{ alumni.profile_picture.url }}" alt="{{ alumni.get_full_name }}">
+                    {% else %}
+                        <img src="{% static 'images/default-avatar.jpg' %}" alt="{{ alumni.get_full_name }}">
+                    {% endif %}
+                </div>
+                <div class="profile-info">
+                    <h2>{{ alumni.get_full_name }}</h2>
+                    <p class="profile-title">{{ alumni.current_position }}{% if alumni.company %} at {{ alumni.company }}{% endif %}</p>
+                    <p class="profile-graduation">
+                        <i class="fas fa-graduation-cap"></i> Class of {{ alumni.graduation_year }}
+                    </p>
+                    <p class="profile-graduation">
+                        <i class="fas fa-university"></i> {{ alumni.department }}
+                    </p>
+                    {% if alumni.location %}
+                        <p class="profile-location">
+                            <i class="fas fa-map-marker-alt"></i> {{ alumni.location }}
+                        </p>
+                    {% endif %}
+                    <div class="profile-social">
+                        {% if alumni.linkedin_url %}
+                            <a href="{{ alumni.linkedin_url }}" target="_blank" class="social-icon linkedin">
+                                <i class="fab fa-linkedin"></i> LinkedIn
+                            </a>
+                        {% endif %}
+                        {% if alumni.twitter_url %}
+                            <a href="{{ alumni.twitter_url }}" target="_blank" class="social-icon twitter">
+                                <i class="fab fa-twitter"></i> Twitter
+                            </a>
+                        {% endif %}
+                        {% if alumni.github_url %}
+                            <a href="{{ alumni.github_url }}" target="_blank" class="social-icon github">
+                                <i class="fab fa-github"></i> GitHub
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-            <nav>
-                <ul>
-                    <li><a href="{% url 'index' %}">Home</a></li>
-                    <li><a href="{% url 'profile_list' %}" class="active">Profiles</a></li>
-                    <li><a href="{% url 'connections' %}">Network</a></li>
-                    <li><a href="{% url 'events' %}">Events</a></li>
-                    <li><a href="{% url 'contribute' %}">Contribute</a></li>
-                </ul>
-            </nav>
-            <div class="auth-buttons">
-                {% if user.is_authenticated %}
-                    <a href="{% url 'my_profile' %}" class="btn profile-btn">My Profile</a>
-                    <a href="{% url 'logout' %}" class="btn logout-btn">Logout</a>
-                {% else %}
-                    <a href="{% url 'login' %}" class="btn login-btn">Login</a>
-                    <a href="{% url 'register' %}" class="btn signup-btn">Sign Up</a>
+            <div class="profile-body">
+                {% if alumni.bio %}
+                    <div class="profile-section">
+                        <h3>About</h3>
+                        <p class="description">{{ alumni.bio }}</p>
+                    </div>
+                {% endif %}
+                
+                {% if experiences %}
+                    <div class="profile-section">
+                        <h3>Experience</h3>
+                        {% for experience in experiences %}
+                            <div class="experience-item">
+                                <h4>{{ experience.title }}</h4>
+                                <p class="company">{{ experience.company }}</p>
+                                <p class="date">
+                                    <i class="far fa-calendar-alt"></i>
+                                    {{ experience.start_date|date:"M Y" }} - 
+                                    {% if experience.is_current %}
+                                        Present
+                                    {% else %}
+                                        {{ experience.end_date|date:"M Y" }}
+                                    {% endif %}
+                                </p>
+                                {% if experience.description %}
+                                    <p class="description">{{ experience.description }}</p>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                
+                {% if educations %}
+                    <div class="profile-section">
+                        <h3>Education</h3>
+                        {% for education in educations %}
+                            <div class="education-item">
+                                <h4>{{ education.degree }}</h4>
+                                <p class="institution">{{ education.institution }}</p>
+                                <p class="date">
+                                    <i class="far fa-calendar-alt"></i>
+                                    {{ education.start_year }} - 
+                                    {% if education.is_current %}
+                                        Present
+                                    {% else %}
+                                        {{ education.end_year }}
+                                    {% endif %}
+                                </p>
+                                {% if education.description %}
+                                    <p class="description">{{ education.description }}</p>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                
+                {% if skills %}
+                    <div class="profile-section">
+                        <h3>Skills</h3>
+                        <div class="skills-list">
+                            {% for skill in skills %}
+                                <span class="skill-tag">
+                                    <i class="fas fa-tag"></i> {{ skill.name }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    </div>
                 {% endif %}
             </div>
-            <div class="mobile-menu-btn">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
         </div>
-    </header>
-
-    <section class="profile-detail">
-        <div class="container">
-            <div class="back-link">
-                <a href="{% url 'profile_list' %}">← Back to Alumni Directory</a>
-            </div>
-            
-            <div class="profile-card">
-                <div class="profile-header">
-                    <div class="profile-avatar">
-                        {% if alumni.profile_picture %}
-                            <img src="{{ alumni.profile_picture.url }}" alt="{{ alumni.get_full_name }}">
-                        {% else %}
-                            <img src="{% static 'images/default-avatar.jpg' %}" alt="{{ alumni.get_full_name }}">
-                        {% endif %}
-                    </div>
-                    <div class="profile-info">
-                        <h2>{{ alumni.get_full_name }}</h2>
-                        <p class="profile-title">{{ alumni.current_position }}{% if alumni.company %} at {{ alumni.company }}{% endif %}</p>
-                        {% if alumni.location %}
-                            <p class="profile-location">{{ alumni.location }}</p>
-                        {% endif %}
-                        <p class="profile-graduation">Class of {{ alumni.graduation_year }}, {{ alumni.department }}</p>
-                        <div class="profile-social">
-                            {% if alumni.linkedin_url %}
-                                <a href="{{ alumni.linkedin_url }}" target="_blank" class="social-icon linkedin">LinkedIn</a>
-                            {% endif %}
-                            {% if alumni.twitter_url %}
-                                <a href="{{ alumni.twitter_url }}" target="_blank" class="social-icon twitter">Twitter</a>
-                            {% endif %}
-                            {% if alumni.github_url %}
-                                <a href="{{ alumni.github_url }}" target="_blank" class="social-icon github">GitHub</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-                <div class="profile-body">
-                    {% if alumni.bio %}
-                        <div class="profile-section">
-                            <h3>About</h3>
-                            <p>{{ alumni.bio }}</p>
-                        </div>
-                    {% endif %}
-                    
-                    {% if experiences %}
-                        <div class="profile-section">
-                            <h3>Experience</h3>
-                            {% for experience in experiences %}
-                                <div class="experience-item">
-                                    <h4>{{ experience.title }}</h4>
-                                    <p class="company">{{ experience.company }}</p>
-                                    <p class="date">
-                                        {{ experience.start_date|date:"M Y" }} - 
-                                        {% if experience.is_current %}
-                                            Present
-                                        {% else %}
-                                            {{ experience.end_date|date:"M Y" }}
-                                        {% endif %}
-                                    </p>
-                                    {% if experience.description %}
-                                        <p class="description">{{ experience.description }}</p>
-                                    {% endif %}
-                                </div>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                    
-                    {% if educations %}
-                        <div class="profile-section">
-                            <h3>Education</h3>
-                            {% for education in educations %}
-                                <div class="education-item">
-                                    <h4>{{ education.degree }}</h4>
-                                    <p class="institution">{{ education.institution }}</p>
-                                    <p class="date">
-                                        {{ education.start_year }} - 
-                                        {% if education.is_current %}
-                                            Present
-                                        {% else %}
-                                            {{ education.end_year }}
-                                        {% endif %}
-                                    </p>
-                                    {% if education.description %}
-                                        <p class="description">{{ education.description }}</p>
-                                    {% endif %}
-                                </div>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                    
-                    {% if skills %}
-                        <div class="profile-section">
-                            <h3>Skills</h3>
-                            <div class="skills-list">
-                                {% for skill in skills %}
-                                    <span class="skill-tag">{{ skill.name }}</span>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-about">
-                    <h3>Alumni<span>Connect</span></h3>
-                    <p>Connecting alumni, building communities, and fostering lifelong relationships with your alma mater.</p>
-                    <div class="social-links">
-                        <a href="#" class="social-link">Facebook</a>
-                        <a href="#" class="social-link">Twitter</a>
-                        <a href="#" class="social-link">LinkedIn</a>
-                        <a href="#" class="social-link">Instagram</a>
-                    </div>
-                </div>
-                <div class="footer-links">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="{% url 'index' %}">Home</a></li>
-                        <li><a href="{% url 'profile_list' %}">Profiles</a></li>
-                        <li><a href="{% url 'connections' %}">Network</a></li>
-                        <li><a href="{% url 'events' %}">Events</a></li>
-                        <li><a href="{% url 'contribute' %}">Contribute</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h4>Resources</h4>
-                    <ul>
-                        <li><a href="#">Career Resources</a></li>
-                        <li><a href="#">Mentorship Program</a></li>
-                        <li><a href="#">Scholarship Opportunities</a></li>
-                        <li><a href="#">Alumni Directory</a></li>
-                    </ul>
-                </div>
-                <div class="footer-contact">
-                    <h4>Contact Us</h4>
-                    <p>Alumni Relations Office</p>
-                    <p>123 University Avenue</p>
-                    <p>City, State 12345</p>
-                    <p>Email: alumni@university.edu</p>
-                    <p>Phone: (123) 456-7890</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Alumni Connect Portal. All rights reserved.</p>
-                <div class="footer-bottom-links">
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                    <a href="#">Cookie Policy</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script src="{% static 'script.js' %}"></script>
-</body>
-</html> 
+    </div>
+</section>
+{% endblock %} 

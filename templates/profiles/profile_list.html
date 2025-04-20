@@ -1,179 +1,342 @@
+{% extends 'profiles/base_profile.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alumni Profiles | Alumni Connect Portal</title>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
-</head>
-<body>
-    <header>
-        <div class="container">
-            <div class="logo">
-                <h1>Alumni<span>Connect</span></h1>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="{% url 'index' %}">Home</a></li>
-                    <li><a href="{% url 'profile_list' %}" class="active">Profiles</a></li>
-                    <li><a href="{% url 'connections' %}">Network</a></li>
-                    <li><a href="{% url 'events' %}">Events</a></li>
-                    <li><a href="{% url 'contribute' %}">Contribute</a></li>
-                </ul>
-            </nav>
-            <div class="auth-buttons">
-                {% if user.is_authenticated %}
-                    <a href="{% url 'my_profile' %}" class="btn profile-btn">My Profile</a>
-                    <a href="{% url 'logout' %}" class="btn logout-btn">Logout</a>
-                {% else %}
-                    <a href="{% url 'login' %}" class="btn login-btn">Login</a>
-                    <a href="{% url 'register' %}" class="btn signup-btn">Sign Up</a>
-                {% endif %}
-            </div>
-            <div class="mobile-menu-btn">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+
+{% block title %}Alumni Profiles | Alumni Connect Portal{% endblock %}
+
+{% block nav_profiles %}class="active"{% endblock %}
+
+{% block page_title %}Alumni Profiles{% endblock %}
+{% block page_subtitle %}Connect with fellow alumni and build your professional network{% endblock %}
+
+{% block main_content %}
+<section class="profile-section">
+    <div class="container">
+        <div class="profile-tabs">
+            <a href="{% url 'profile_list' %}" class="tab-btn active">Alumni Directory</a>
+            <a href="{% url 'search_alumni' %}" class="tab-btn">Search Alumni</a>
+            {% if user.is_authenticated and user.is_alumni %}
+                <a href="{% url 'my_profile' %}" class="tab-btn">My Profile</a>
+            {% endif %}
         </div>
-    </header>
-
-    <section class="page-header">
-        <div class="container">
-            <h1>Alumni Profiles</h1>
-            <p>Connect with fellow alumni and build your professional network</p>
-        </div>
-    </section>
-
-    <section class="profile-section">
-        <div class="container">
-            <div class="profile-tabs">
-                <a href="{% url 'profile_list' %}" class="tab-btn active">Alumni Directory</a>
-                <a href="{% url 'search_alumni' %}" class="tab-btn">Search Alumni</a>
-                {% if user.is_authenticated and user.is_alumni %}
-                    <a href="{% url 'my_profile' %}" class="tab-btn">My Profile</a>
-                {% endif %}
+        
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
             </div>
+        {% endif %}
 
-            <div class="directory-filters">
-                <form method="get" action="{% url 'search_alumni' %}">
+        <div class="directory-filters">
+            <form method="get" action="{% url 'profile_list' %}">
+                <div class="filter-row">
                     <div class="filter-group">
                         <label for="filter-year">Graduation Year</label>
-                        <select id="filter-year" name="graduation_year">
-                            <option value="">All Years</option>
-                            <option value="2020">2020-2025</option>
-                            <option value="2015">2015-2019</option>
-                            <option value="2010">2010-2014</option>
-                            <option value="2005">2005-2009</option>
-                            <option value="2000">2000-2004</option>
-                            <option value="1995">Before 2000</option>
+                        <select id="filter-year" name="graduation_year" style="background-color: #4d4d4d; color: white; border: 2px solid yellow;">
+                            <option value="" {% if not graduation_year_filter %}selected{% endif %} style="background-color: #3d3d3d; color: white;">All Years</option>
+                            {% for year in all_years %}
+                                <option value="{{ year }}" {% if graduation_year_filter == year|stringformat:'s' %}selected{% endif %} style="background-color: #3d3d3d; color: white;">{{ year }}</option>
+                            {% endfor %}
                         </select>
                     </div>
+                    
                     <div class="filter-group">
                         <label for="filter-department">Department</label>
-                        <select id="filter-department" name="department">
-                            <option value="">All Departments</option>
-                            <option value="Computer Science">Computer Science</option>
-                            <option value="Business">Business</option>
-                            <option value="Engineering">Engineering</option>
-                            <option value="Arts & Humanities">Arts & Humanities</option>
-                            <option value="Science">Science</option>
-                            <option value="Medicine">Medicine</option>
+                        <select id="filter-department" name="department" style="background-color: #4d4d4d; color: white; border: 2px solid yellow;">
+                            <option value="" {% if not department_filter %}selected{% endif %} style="background-color: #3d3d3d; color: white;">All Departments</option>
+                            {% for dept in all_departments %}
+                                <option value="{{ dept }}" {% if department_filter == dept %}selected{% endif %} style="background-color: #3d3d3d; color: white;">{{ dept }}</option>
+                            {% endfor %}
                         </select>
                     </div>
+                    
+                    {% if all_professions %}
                     <div class="filter-group">
-                        <label for="search-query">Search</label>
-                        <input type="text" id="search-query" name="q" placeholder="Name, Company, Position...">
+                        <label for="filter-profession">Profession</label>
+                        <select id="filter-profession" name="profession" style="background-color: #4d4d4d; color: white; border: 2px solid yellow;">
+                            <option value="" {% if not profession_filter %}selected{% endif %} style="background-color: #3d3d3d; color: white;">All Professions</option>
+                            {% for profession in all_professions %}
+                                <option value="{{ profession.name }}" {% if profession_filter == profession.name %}selected{% endif %} style="background-color: #3d3d3d; color: white;">{{ profession.name }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
-                    <button type="submit" class="btn filter-btn">Search</button>
-                </form>
-            </div>
+                    {% endif %}
+                    
+                    {% if all_skills %}
+                    <div class="filter-group">
+                        <label for="filter-skill">Skill</label>
+                        <select id="filter-skill" name="skill" style="background-color: #4d4d4d; color: white; border: 2px solid yellow;">
+                            <option value="" {% if not skill_filter %}selected{% endif %} style="background-color: #3d3d3d; color: white;">All Skills</option>
+                            {% for skill in all_skills %}
+                                <option value="{{ skill.name }}" {% if skill_filter == skill.name %}selected{% endif %} style="background-color: #3d3d3d; color: white;">{{ skill.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div class="sort-row">
+                    <div class="filter-group">
+                        <label for="sort-by">Sort By</label>
+                        <select id="sort-by" name="sort" style="background-color: #4d4d4d; color: white; border: 2px solid yellow;">
+                            <option value="-graduation_year" {% if current_sort == '-graduation_year' %}selected{% endif %} style="background-color: #3d3d3d; color: white;">Newest Graduates First</option>
+                            <option value="graduation_year" {% if current_sort == 'graduation_year' %}selected{% endif %} style="background-color: #3d3d3d; color: white;">Oldest Graduates First</option>
+                            <option value="first_name" {% if current_sort == 'first_name' %}selected{% endif %} style="background-color: #3d3d3d; color: white;">First Name (A-Z)</option>
+                            <option value="last_name" {% if current_sort == 'last_name' %}selected{% endif %} style="background-color: #3d3d3d; color: white;">Last Name (A-Z)</option>
+                            <option value="department" {% if current_sort == 'department' %}selected{% endif %} style="background-color: #3d3d3d; color: white;">Department</option>
+                            <option value="current_position" {% if current_sort == 'current_position' %}selected{% endif %} style="background-color: #3d3d3d; color: white;">Current Position</option>
+                            <option value="company" {% if current_sort == 'company' %}selected{% endif %} style="background-color: #3d3d3d; color: white;">Company</option>
+                            <option value="location" {% if current_sort == 'location' %}selected{% endif %} style="background-color: #3d3d3d; color: white;">Location</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-actions">
+                        <button type="submit" class="btn filter-btn">Apply Filters</button>
+                        <a href="{% url 'profile_list' %}" class="btn reset-btn">Reset</a>
+                    </div>
+                </div>
+            </form>
+        </div>
 
-            <div class="alumni-grid">
-                {% if alumni_list %}
-                    {% for alumni in alumni_list %}
-                        <div class="alumni-card">
-                            <div class="alumni-avatar">
-                                {% if alumni.profile_picture %}
-                                    <img src="{{ alumni.profile_picture.url }}" alt="{{ alumni.get_full_name }}">
-                                {% else %}
-                                    <img src="{% static 'images/default-avatar.jpg' %}" alt="{{ alumni.get_full_name }}">
-                                {% endif %}
-                            </div>
-                            <div class="alumni-info">
-                                <h3>{{ alumni.get_full_name }}</h3>
-                                <p class="alumni-position">{{ alumni.current_position }}{% if alumni.company %} at {{ alumni.company }}{% endif %}</p>
-                                <p class="alumni-graduation">Class of {{ alumni.graduation_year }}, {{ alumni.department }}</p>
-                                {% if alumni.location %}
-                                    <p class="alumni-location">{{ alumni.location }}</p>
-                                {% endif %}
-                            </div>
-                            <div class="alumni-actions">
-                                <a href="{% url 'profile_detail' alumni.id %}" class="btn view-profile-btn">View Profile</a>
-                            </div>
+        <div class="alumni-grid">
+            {% if alumni_list %}
+                {% for alumni in alumni_list %}
+                    <div class="alumni-card">
+                        <div class="alumni-avatar">
+                            {% if alumni.profile_picture %}
+                                <img src="{{ alumni.profile_picture.url }}" alt="{{ alumni.get_full_name }}">
+                            {% else %}
+                                <img src="{% static 'images/default-avatar.jpg' %}" alt="{{ alumni.get_full_name }}">
+                            {% endif %}
                         </div>
-                    {% endfor %}
-                {% else %}
-                    <p class="no-results">No alumni profiles found.</p>
-                {% endif %}
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-about">
-                    <h3>Alumni<span>Connect</span></h3>
-                    <p>Connecting alumni, building communities, and fostering lifelong relationships with your alma mater.</p>
-                    <div class="social-links">
-                        <a href="#" class="social-link">Facebook</a>
-                        <a href="#" class="social-link">Twitter</a>
-                        <a href="#" class="social-link">LinkedIn</a>
-                        <a href="#" class="social-link">Instagram</a>
+                        <div class="alumni-info">
+                            <h3><a href="{% url 'profile_detail' alumni.id %}">{{ alumni.get_full_name }}</a></h3>
+                            <p class="alumni-position">{{ alumni.current_position }}{% if alumni.company %} at {{ alumni.company }}{% endif %}</p>
+                            <p class="alumni-graduation">
+                                <i class="fas fa-graduation-cap"></i> Class of {{ alumni.graduation_year }}
+                            </p>
+                            <p class="alumni-graduation">
+                                <i class="fas fa-university"></i> {{ alumni.department }}
+                            </p>
+                            {% if alumni.location %}
+                                <p class="alumni-location">
+                                    <i class="fas fa-map-marker-alt"></i> {{ alumni.location }}
+                                </p>
+                            {% endif %}
+                            
+                            <!-- Only show professions section if we have any professions -->
+                            {% if all_professions %}
+                                {% with professions=alumni.professions.all %}
+                                    {% if professions %}
+                                        <div class="alumni-professions">
+                                            <p><strong>Professions:</strong></p>
+                                            <ul class="tag-list">
+                                                {% for profession in professions %}
+                                                    <li class="tag {% if profession.is_primary %}primary-tag{% endif %}">
+                                                        <a href="{% url 'profile_list' %}?profession={{ profession.category.name|urlencode }}">
+                                                            {{ profession.specific_role }}
+                                                        </a>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    {% endif %}
+                                {% endwith %}
+                            {% endif %}
+                            
+                            <!-- Only show skills section if we have any skills -->
+                            {% if all_skills %}
+                                {% with skills=alumni.alumni_skills.all %}
+                                    {% if skills %}
+                                        <div class="alumni-skills">
+                                            <p><strong>Skills:</strong></p>
+                                            <ul class="tag-list">
+                                                {% for alumni_skill in skills|slice:":5" %}
+                                                    <li class="tag skill-level-{{ alumni_skill.proficiency_level }}">
+                                                        <a href="{% url 'profile_list' %}?skill={{ alumni_skill.skill.name|urlencode }}">
+                                                            {{ alumni_skill.skill.name }}
+                                                        </a>
+                                                    </li>
+                                                {% endfor %}
+                                                {% if skills.count > 5 %}
+                                                    <li class="tag more-tag">
+                                                        <a href="{% url 'profile_detail' alumni.id %}">+{{ skills.count|add:"-5" }} more</a>
+                                                    </li>
+                                                {% endif %}
+                                            </ul>
+                                        </div>
+                                    {% endif %}
+                                {% endwith %}
+                            {% endif %}
+                        </div>
+                        <div class="alumni-actions">
+                            <a href="{% url 'profile_detail' alumni.id %}" class="btn view-profile-btn">View Profile</a>
+                        </div>
                     </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-results">
+                    <p>No alumni found matching your criteria.</p>
                 </div>
-                <div class="footer-links">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="{% url 'index' %}">Home</a></li>
-                        <li><a href="{% url 'profile_list' %}">Profiles</a></li>
-                        <li><a href="{% url 'connections' %}">Network</a></li>
-                        <li><a href="{% url 'events' %}">Events</a></li>
-                        <li><a href="{% url 'contribute' %}">Contribute</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h4>Resources</h4>
-                    <ul>
-                        <li><a href="#">Career Resources</a></li>
-                        <li><a href="#">Mentorship Program</a></li>
-                        <li><a href="#">Scholarship Opportunities</a></li>
-                        <li><a href="#">Alumni Directory</a></li>
-                    </ul>
-                </div>
-                <div class="footer-contact">
-                    <h4>Contact Us</h4>
-                    <p>Alumni Relations Office</p>
-                    <p>123 University Avenue</p>
-                    <p>City, State 12345</p>
-                    <p>Email: alumni@university.edu</p>
-                    <p>Phone: (123) 456-7890</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Alumni Connect Portal. All rights reserved.</p>
-                <div class="footer-bottom-links">
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                    <a href="#">Cookie Policy</a>
-                </div>
-            </div>
+            {% endif %}
         </div>
-    </footer>
+    </div>
+</section>
 
-    <script src="{% static 'script.js' %}"></script>
-</body>
-</html> 
+<style>
+    /* Message styling */
+    .messages {
+        margin-bottom: 20px;
+    }
+    
+    .message {
+        padding: 10px 15px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+    }
+    
+    .message.warning {
+        background-color: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeeba;
+    }
+    
+    .message.error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+    
+    .message.success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+    
+    .message.info {
+        background-color: #d1ecf1;
+        color: #0c5460;
+        border: 1px solid #bee5eb;
+    }
+    
+    /* Tag styling for skills and professions */
+    .tag-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin: 5px 0;
+        padding: 0;
+        list-style: none;
+    }
+    
+    .tag {
+        background-color: #f0f0f0;
+        color: #333;
+        border-radius: 15px;
+        padding: 3px 10px;
+        font-size: 0.8rem;
+        display: inline-block;
+    }
+    
+    .tag a {
+        color: inherit;
+        text-decoration: none;
+    }
+    
+    .primary-tag {
+        background-color: #ffda79;
+        color: #333;
+    }
+    
+    .more-tag {
+        background-color: #ddd;
+    }
+    
+    /* Skill proficiency level colors */
+    .skill-level-1 {
+        background-color: #e0e0e0;
+        color: #333;
+    }
+    
+    .skill-level-2 {
+        background-color: #b8e6ff;
+        color: #333;
+    }
+    
+    .skill-level-3 {
+        background-color: #98d7ff;
+        color: #333;
+    }
+    
+    .skill-level-4 {
+        background-color: #70c1ff;
+        color: #333;
+    }
+    
+    .skill-level-5 {
+        background-color: #45a9ff;
+        color: #333;
+    }
+    
+    /* Improved filter styling */
+    .directory-filters {
+        background-color: #f5f5f5;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+    
+    .filter-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .sort-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .filter-group {
+        flex: 1;
+        min-width: 200px;
+    }
+    
+    .filter-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 500;
+    }
+    
+    .filter-group select {
+        width: 100%;
+        padding: 8px 10px;
+        border-radius: 4px;
+    }
+    
+    /* Override default styling for inputs in dark theme */
+    .directory-filters input[type="text"]::placeholder {
+        color: #aaa;
+    }
+    
+    .filter-actions {
+        display: flex;
+        gap: 10px;
+    }
+    
+    .filter-btn {
+        background-color: #4285f4;
+        color: white;
+    }
+    
+    .reset-btn {
+        background-color: #f5f5f5;
+        color: #333;
+        border: 1px solid #ddd;
+    }
+</style>
+{% endblock %} 

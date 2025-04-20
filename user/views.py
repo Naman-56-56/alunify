@@ -18,7 +18,10 @@ def login_view(request):
         
         if user is not None:
             login(request, user)
-            return redirect('alumni_dashboard')
+            if user.is_student:
+                return redirect('student_dashboard')
+            else:
+                return redirect('alumni_dashboard')
         else:
             messages.error(request, 'Invalid email or password.')
     
@@ -31,10 +34,20 @@ def register_view(request):
                 # Get form data
                 full_name = request.POST.get('full_name')
                 email = request.POST.get('email')
-                graduation_year = request.POST.get('graduation_year')
-                department = request.POST.get('department')
                 password = request.POST.get('password')
                 confirm_password = request.POST.get('confirm_password')
+                department = request.POST.get('department')
+                user_type = request.POST.get('user_type', 'alumni')  # Default to alumni if not specified
+                
+                # Get appropriate graduation year field based on user type
+                if user_type == 'student':
+                    graduation_year = request.POST.get('expected_graduation_year')
+                    is_alumni = False
+                    is_student = True
+                else:
+                    graduation_year = request.POST.get('graduation_year')
+                    is_alumni = True
+                    is_student = False
 
                 # Validate passwords match
                 if password != confirm_password:
@@ -50,13 +63,18 @@ def register_view(request):
                     last_name=' '.join(full_name.split()[1:]) if len(full_name.split()) > 1 else '',
                     graduation_year=graduation_year,
                     department=department,
-                    is_alumni=True
+                    is_alumni=is_alumni,
+                    is_student=is_student
                 )
 
                 # Log the user in
                 login(request, user)
-                messages.success(request, 'Registration successful! Welcome to Alumni Connect.')
-                return redirect('alumni_dashboard')
+                if is_student:
+                    messages.success(request, 'Registration successful! Welcome to Student Connect.')
+                    return redirect('student_dashboard')
+                else:
+                    messages.success(request, 'Registration successful! Welcome to Alumni Connect.')
+                    return redirect('alumni_dashboard')
 
         except Exception as e:
             messages.error(request, f'Registration failed: {str(e)}')
@@ -70,6 +88,13 @@ def alumni_dashboard(request):
         messages.error(request, 'Access denied. Alumni only area.')
         return redirect('login')
     return render(request, 'alumni_dashboard.html')
+
+@login_required
+def student_dashboard(request):
+    if not request.user.is_student:
+        messages.error(request, 'Access denied. Students only area.')
+        return redirect('login')
+    return render(request, 'student_dashboard.html')
 
 def profile_view(request):
     # Redirect to the new profiles app

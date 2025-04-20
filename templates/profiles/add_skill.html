@@ -1,134 +1,60 @@
+{% extends 'profiles/base_profile.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Skills | Alumni Connect Portal</title>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
-</head>
-<body>
-    <header>
-        <div class="container">
-            <div class="logo">
-                <h1>Alumni<span>Connect</span></h1>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="{% url 'index' %}">Home</a></li>
-                    <li><a href="{% url 'profile_list' %}" class="active">Profiles</a></li>
-                    <li><a href="{% url 'connections' %}">Network</a></li>
-                    <li><a href="{% url 'events' %}">Events</a></li>
-                    <li><a href="{% url 'contribute' %}">Contribute</a></li>
-                </ul>
-            </nav>
-            <div class="auth-buttons">
-                <a href="{% url 'my_profile' %}" class="btn profile-btn">My Profile</a>
-                <a href="{% url 'logout' %}" class="btn logout-btn">Logout</a>
-            </div>
-            <div class="mobile-menu-btn">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-    </header>
 
-    <section class="page-header">
-        <div class="container">
-            <h1>Add Skills</h1>
-            <p>Add professional skills and expertise to your profile</p>
-        </div>
-    </section>
+{% block title %}Add Skills | Alumni Connect Portal{% endblock %}
 
-    <section class="form-section">
-        <div class="container">
-            <div class="back-link">
-                <a href="{% url 'my_profile' %}">← Back to My Profile</a>
-            </div>
-            
-            {% if messages %}
-                <div class="messages">
-                    {% for message in messages %}
-                        <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-            
-            <div class="form-card">
-                <form method="post" class="add-skills-form">
-                    {% csrf_token %}
-                    
-                    <div class="form-group">
-                        <label for="skills">Skills</label>
-                        <input type="text" id="skills" name="skills" required placeholder="e.g. JavaScript, Python, Project Management">
-                        <p class="form-help">Enter skills separated by commas. For example: JavaScript, Python, Project Management</p>
-                    </div>
-                    
-                    <div class="form-actions">
-                        <button type="submit" class="btn primary-btn">Save Skills</button>
-                        <a href="{% url 'my_profile' %}" class="btn secondary-btn">Cancel</a>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </section>
+{% block nav_profiles %}class="active"{% endblock %}
 
-    <footer>
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-about">
-                    <h3>Alumni<span>Connect</span></h3>
-                    <p>Connecting alumni, building communities, and fostering lifelong relationships with your alma mater.</p>
-                    <div class="social-links">
-                        <a href="#" class="social-link">Facebook</a>
-                        <a href="#" class="social-link">Twitter</a>
-                        <a href="#" class="social-link">LinkedIn</a>
-                        <a href="#" class="social-link">Instagram</a>
-                    </div>
-                </div>
-                <div class="footer-links">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="{% url 'index' %}">Home</a></li>
-                        <li><a href="{% url 'profile_list' %}">Profiles</a></li>
-                        <li><a href="{% url 'connections' %}">Network</a></li>
-                        <li><a href="{% url 'events' %}">Events</a></li>
-                        <li><a href="{% url 'contribute' %}">Contribute</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h4>Resources</h4>
-                    <ul>
-                        <li><a href="#">Career Resources</a></li>
-                        <li><a href="#">Mentorship Program</a></li>
-                        <li><a href="#">Scholarship Opportunities</a></li>
-                        <li><a href="#">Alumni Directory</a></li>
-                    </ul>
-                </div>
-                <div class="footer-contact">
-                    <h4>Contact Us</h4>
-                    <p>Alumni Relations Office</p>
-                    <p>123 University Avenue</p>
-                    <p>City, State 12345</p>
-                    <p>Email: alumni@university.edu</p>
-                    <p>Phone: (123) 456-7890</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Alumni Connect Portal. All rights reserved.</p>
-                <div class="footer-bottom-links">
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                    <a href="#">Cookie Policy</a>
-                </div>
-            </div>
-        </div>
-    </footer>
+{% block page_title %}Add Skills{% endblock %}
+{% block page_subtitle %}Showcase your expertise and talents{% endblock %}
 
-    <script src="{% static 'script.js' %}"></script>
-</body>
-</html> 
+{% block main_content %}
+<section class="profile-section">
+    <div class="container">
+        <div class="profile-tabs">
+            <a href="{% url 'profile_list' %}" class="tab-btn">Alumni Directory</a>
+            <a href="{% url 'search_alumni' %}" class="tab-btn">Search Alumni</a>
+            <a href="{% url 'my_profile' %}" class="tab-btn">My Profile</a>
+        </div>
+
+        <div class="form-card">
+            <h2>Add Your Skills</h2>
+            <form method="post" class="profile-form">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="skill">Select Existing Skill</label>
+                    <select id="skill" name="skill">
+                        <option value="" selected>Select a skill or add new ones below</option>
+                        {% for skill in skills %}
+                        <option value="{{ skill.id }}">{{ skill.name }}{% if skill.category %} ({{ skill.get_category_display }}){% endif %}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="skill_names">Or Add Multiple New Skills (comma separated)</label>
+                    <input type="text" id="skill_names" name="skill_names" placeholder="e.g. Python, Data Analysis, Communication">
+                    <p class="form-help">Enter multiple skills separated by commas</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="proficiency_level">Proficiency Level</label>
+                    <select id="proficiency_level" name="proficiency_level" required>
+                        <option value="1">Beginner</option>
+                        <option value="2">Intermediate</option>
+                        <option value="3" selected>Advanced</option>
+                        <option value="4">Expert</option>
+                        <option value="5">Master</option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn primary-btn">Add Skills</button>
+                    <a href="{% url 'my_profile' %}" class="btn secondary-btn">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %} 

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Profile | Alumni Connect Portal</title>
+    <title>Edit Profile | {% if alumni.is_student %}Student{% else %}Alumni{% endif %} Connect Portal</title>
     <link rel="stylesheet" href="{% static 'styles.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
 </head>
@@ -12,7 +12,7 @@
     <header>
         <div class="container">
             <div class="logo">
-                <h1>Alumni<span>Connect</span></h1>
+                <h1>{% if alumni.is_student %}Student{% else %}Alumni{% endif %}<span>Connect</span></h1>
             </div>
             <nav>
                 <ul>
@@ -38,7 +38,7 @@
     <section class="page-header">
         <div class="container">
             <h1>Edit Profile</h1>
-            <p>Update your personal and professional information</p>
+            <p>Update your personal and {% if alumni.is_student %}academic{% else %}professional{% endif %} information</p>
         </div>
     </section>
 
@@ -95,6 +95,22 @@
                         </div>
                     </div>
                     
+                    {% if alumni.is_student %}
+                    <div class="form-section">
+                        <h3>Academic Information</h3>
+                        <div class="form-group">
+                            <label for="expected_graduation">Expected Graduation Year</label>
+                            <input type="number" id="expected_graduation" name="expected_graduation" 
+                                   value="{{ alumni.graduation_year }}" min="2024" max="2030">
+                        </div>
+                        <div class="form-group">
+                            <label for="interests">Career Interests</label>
+                            <textarea id="interests" name="interests" rows="3" 
+                                      placeholder="Share your career interests and goals">{{ alumni.current_position }}</textarea>
+                            <p class="form-help">This helps alumni find students with matching interests for mentorship.</p>
+                        </div>
+                    </div>
+                    {% else %}
                     <div class="form-section">
                         <h3>Professional Information</h3>
                         <div class="form-group">
@@ -106,6 +122,7 @@
                             <input type="text" id="company" name="company" value="{{ alumni.company }}" placeholder="e.g. Tech Company Inc.">
                         </div>
                     </div>
+                    {% endif %}
                     
                     <div class="form-section">
                         <h3>Social Media Links</h3>
@@ -136,7 +153,7 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-about">
-                    <h3>Alumni<span>Connect</span></h3>
+                    <h3>{% if alumni.is_student %}Student{% else %}Alumni{% endif %}<span>Connect</span></h3>
                     <p>Connecting alumni, building communities, and fostering lifelong relationships with your alma mater.</p>
                     <div class="social-links">
                         <a href="#" class="social-link">Facebook</a>
