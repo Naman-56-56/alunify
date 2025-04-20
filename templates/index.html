@@ -1,0 +1,351 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Connect Portal</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Alumni<span>Connect</span></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'index' %}" class="active">Home</a></li>
+                    <li><a href="{% url 'profile_list' %}">Profiles</a></li>
+                    <li><a href="{% url 'connections' %}">Network</a></li>
+                    <li><a href="{% url 'events' %}">Events</a></li>
+                    <li><a href="{% url 'contribute' %}">Contribute</a></li>
+                </ul>
+            </nav>
+            <div class="theme-switcher">
+                <div class="theme-toggle" aria-label="Toggle dark mode"></div>
+                <div class="theme-selector">
+                  <div class="theme-option theme-option-light" data-theme="theme-light" aria-label="Light theme"></div>
+                  <div class="theme-option theme-option-blue" data-theme="theme-blue" aria-label="Blue theme"></div>
+                  <div class="theme-option theme-option-green" data-theme="theme-green" aria-label="Green theme"></div>
+                  <div class="theme-option theme-option-purple" data-theme="theme-purple" aria-label="Purple theme"></div>
+                  <div class="theme-option theme-option-high-contrast" data-theme="theme-high-contrast" aria-label="High contrast theme"></div>
+                </div>
+              </div>
+            <div class="auth-buttons">
+                <a href="{% url 'login' %}" class="btn login-btn">Login</a>
+                <a href="{% url 'register' %}" class="btn signup-btn">Sign Up</a>
+            </div>
+            <div class="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Connect With Your <span>Alumni Community</span></h1>
+                <p>Build meaningful connections, access exclusive events, and contribute to the growth of your alma mater.</p>
+                <div class="hero-buttons">
+                    <a href="{% url 'register' %}" class="btn primary-btn">Join Now</a>
+                    <a href="#features" class="btn secondary-btn">Learn More</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="{% static 'images/hero-image.jpg' %}" alt="Alumni connecting">
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Why Join Alumni Connect?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <img src="{% static 'images/profile-icon.svg' %}" alt="Profile icon">
+                    </div>
+                    <h3>Build Your Profile</h3>
+                    <p>Create and maintain your professional profile to showcase your achievements and career path.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <img src="{% static 'images/network-icon.svg' %}" alt="Network icon">
+                    </div>
+                    <h3>Expand Your Network</h3>
+                    <p>Connect with fellow alumni across different batches, departments, and industries.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <img src="{% static 'images/events-icon.svg' %}" alt="Events icon">
+                    </div>
+                    <h3>Attend Events</h3>
+                    <p>Stay updated on reunions, webinars, and networking events happening around you.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <img src="{% static 'images/mentor-icon.svg' %}" alt="Mentor icon">
+                    </div>
+                    <h3>Mentor Students</h3>
+                    <p>Give back by mentoring current students and helping them navigate their career paths.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3 class="stat-number" id="alumni-count">10,000+</h3>
+                    <p class="stat-label">Alumni</p>
+                </div>
+                <div class="stat-card">
+                    <h3 class="stat-number" id="countries-count">50+</h3>
+                    <p class="stat-label">Countries</p>
+                </div>
+                <div class="stat-card">
+                    <h3 class="stat-number" id="events-count">200+</h3>
+                    <p class="stat-label">Annual Events</p>
+                </div>
+                <div class="stat-card">
+                    <h3 class="stat-number" id="mentors-count">500+</h3>
+                    <p class="stat-label">Active Mentors</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">What Our Alumni Say</h2>
+            <div class="testimonial-slider">
+                <div class="testimonial-card active">
+                    <div class="testimonial-content">
+                        <p>"Alumni Connect helped me reconnect with my classmates after 15 years. I've found new business partners and lifelong friends through this platform."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="{% static 'images/testimonial-1.jpg' %}" alt="Sarah Johnson">
+                        <div class="author-info">
+                            <h4>Sarah Johnson</h4>
+                            <p>Class of 2005, Engineering</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"As someone who moved abroad after graduation, this platform has been invaluable in maintaining my connection with my alma mater and fellow alumni."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="{% static 'images/testimonial-2.jpg' %}" alt="David Chen">
+                        <div class="author-info">
+                            <h4>David Chen</h4>
+                            <p>Class of 2010, Business</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"The mentorship program on Alumni Connect helped me navigate my early career challenges. Now I'm giving back by mentoring current students."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="{% static 'images/testimonial-3.jpg' %}" alt="Priya Patel">
+                        <div class="author-info">
+                            <h4>Priya Patel</h4>
+                            <p>Class of 2015, Computer Science</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-controls">
+                <button class="prev-btn" id="prev-testimonial">←</button>
+                <div class="testimonial-dots">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+                <button class="next-btn" id="next-testimonial">→</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="upcoming-events">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Upcoming Events</h2>
+                <a href="{% url 'events' %}" class="view-all">View All Events</a>
+            </div>
+            <div class="events-grid">
+                <div class="event-card">
+                    <div class="event-date">
+                        <span class="day">15</span>
+                        <span class="month">May</span>
+                    </div>
+                    <div class="event-details">
+                        <h3>Annual Alumni Reunion</h3>
+                        <p class="event-location">Main Campus, Grand Hall</p>
+                        <p class="event-description">Join us for a day of reconnecting, networking, and celebrating our alma mater.</p>
+                        <button class="btn event-btn" onclick="location.href='{% url 'register' %}'">Register</button>
+                    </div>
+                </div>
+                <div class="event-card">
+                    <div class="event-date">
+                        <span class="day">22</span>
+                        <span class="month">Jun</span>
+                    </div>
+                    <div class="event-details">
+                        <h3>Career Development Workshop</h3>
+                        <p class="event-location">Virtual Event</p>
+                        <p class="event-description">Learn from industry experts about the latest trends and opportunities in your field.</p>
+                        <button class="btn event-btn" onclick="location.href='{% url 'register' %}'">Register</button>
+                    </div>
+                </div>
+                <div class="event-card">
+                    <div class="event-date">
+                        <span class="day">10</span>
+                        <span class="month">Jul</span>
+                    </div>
+                    <div class="event-details">
+                        <h3>Networking Mixer</h3>
+                        <p class="event-location">Downtown Conference Center</p>
+                        <p class="event-description">An evening of networking with alumni from various industries and backgrounds.</p>
+                        <button class="btn event-btn" onclick="location.href='{% url 'register' %}'">Register</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <h2>Stay Connected</h2>
+                <p>Subscribe to our newsletter to receive updates on events, opportunities, and alumni success stories.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Enter your email address" required>
+                    <button type="submit" class="btn primary-btn">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <h3>Alumni<span>Connect</span></h3>
+                    <p>Connecting alumni, building communities, and fostering lifelong relationships with your alma mater.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">Facebook</a>
+                        <a href="#" class="social-link">Twitter</a>
+                        <a href="#" class="social-link">LinkedIn</a>
+                        <a href="#" class="social-link">Instagram</a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="{% url 'index' %}">Home</a></li>
+                        <li><a href="{% url 'profile' %}">Profiles</a></li>
+                        <li><a href="{% url 'connections' %}">Network</a></li>
+                        <li><a href="{% url 'events' %}">Events</a></li>
+                        <li><a href="{% url 'contribute' %}">Contribute</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Career Resources</a></li>
+                        <li><a href="#">Mentorship Program</a></li>
+                        <li><a href="#">Scholarship Opportunities</a></li>
+                        <li><a href="#">Alumni Directory</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p>Alumni Relations Office</p>
+                    <p>123 University Avenue</p>
+                    <p>City, State 12345</p>
+                    <p>Email: alumni@university.edu</p>
+                    <p>Phone: (123) 456-7890</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Alumni Connect Portal. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Login to Alumni Connect</h2>
+            <form id="login-form" action="{% url 'login' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <a href="{% url 'password_reset' %}" class="forgot-password">Forgot Password?</a>
+                </div>
+                <button type="submit" class="btn primary-btn">Login</button>
+            </form>
+            <div class="modal-footer">
+                <p>Don't have an account? <a href="{% url 'register' %}" id="show-signup">Sign Up</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="modal" id="signup-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Join Alumni Connect</h2>
+            <form id="signup-form" action="{% url 'register' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="signup-name">Full Name</label>
+                    <input type="text" id="signup-name" name="full_name" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="graduation-year">Graduation Year</label>
+                    <input type="number" id="graduation-year" name="graduation_year" min="1900" max="2025" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" name="confirm_password" required>
+                </div>
+                <button type="submit" class="btn primary-btn">Create Account</button>
+            </form>
+            <div class="modal-footer">
+                <p>Already have an account? <a href="{% url 'login' %}" id="show-login">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'script.js' %}"></script>
+</body>
+</html>

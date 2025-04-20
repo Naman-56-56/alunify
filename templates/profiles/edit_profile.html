@@ -1,0 +1,189 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile | Alumni Connect Portal</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Alumni<span>Connect</span></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'profile_list' %}" class="active">Profiles</a></li>
+                    <li><a href="{% url 'connections' %}">Network</a></li>
+                    <li><a href="{% url 'events' %}">Events</a></li>
+                    <li><a href="{% url 'contribute' %}">Contribute</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <a href="{% url 'my_profile' %}" class="btn profile-btn">My Profile</a>
+                <a href="{% url 'logout' %}" class="btn logout-btn">Logout</a>
+            </div>
+            <div class="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Edit Profile</h1>
+            <p>Update your personal and professional information</p>
+        </div>
+    </section>
+
+    <section class="form-section">
+        <div class="container">
+            <div class="back-link">
+                <a href="{% url 'my_profile' %}">← Back to My Profile</a>
+            </div>
+            
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            <div class="form-card">
+                <form method="post" enctype="multipart/form-data" class="edit-profile-form">
+                    {% csrf_token %}
+                    
+                    <div class="form-section">
+                        <h3>Personal Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="first_name">First Name</label>
+                                <input type="text" id="first_name" name="first_name" value="{{ alumni.first_name }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="last_name">Last Name</label>
+                                <input type="text" id="last_name" name="last_name" value="{{ alumni.last_name }}" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="location">Location</label>
+                            <input type="text" id="location" name="location" value="{{ alumni.location }}" placeholder="e.g. New York, NY">
+                        </div>
+                        <div class="form-group">
+                            <label for="bio">About Me</label>
+                            <textarea id="bio" name="bio" rows="4" placeholder="Tell others about yourself and your background">{{ alumni.bio }}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="profile_picture">Profile Picture</label>
+                            {% if alumni.profile_picture %}
+                                <div class="current-picture">
+                                    <img src="{{ alumni.profile_picture.url }}" alt="{{ alumni.get_full_name }}" width="100">
+                                    <p>Current profile picture</p>
+                                </div>
+                            {% endif %}
+                            <input type="file" id="profile_picture" name="profile_picture" accept="image/*">
+                            <p class="form-help">Upload a square image for best results. Maximum size: 5MB.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Professional Information</h3>
+                        <div class="form-group">
+                            <label for="current_position">Current Position</label>
+                            <input type="text" id="current_position" name="current_position" value="{{ alumni.current_position }}" placeholder="e.g. Software Engineer">
+                        </div>
+                        <div class="form-group">
+                            <label for="company">Company/Organization</label>
+                            <input type="text" id="company" name="company" value="{{ alumni.company }}" placeholder="e.g. Tech Company Inc.">
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Social Media Links</h3>
+                        <div class="form-group">
+                            <label for="linkedin_url">LinkedIn Profile</label>
+                            <input type="url" id="linkedin_url" name="linkedin_url" value="{{ alumni.linkedin_url }}" placeholder="https://www.linkedin.com/in/your-profile">
+                        </div>
+                        <div class="form-group">
+                            <label for="twitter_url">Twitter Profile</label>
+                            <input type="url" id="twitter_url" name="twitter_url" value="{{ alumni.twitter_url }}" placeholder="https://twitter.com/your-handle">
+                        </div>
+                        <div class="form-group">
+                            <label for="github_url">GitHub Profile</label>
+                            <input type="url" id="github_url" name="github_url" value="{{ alumni.github_url }}" placeholder="https://github.com/your-username">
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn primary-btn">Save Changes</button>
+                        <a href="{% url 'my_profile' %}" class="btn secondary-btn">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <h3>Alumni<span>Connect</span></h3>
+                    <p>Connecting alumni, building communities, and fostering lifelong relationships with your alma mater.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">Facebook</a>
+                        <a href="#" class="social-link">Twitter</a>
+                        <a href="#" class="social-link">LinkedIn</a>
+                        <a href="#" class="social-link">Instagram</a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="{% url 'index' %}">Home</a></li>
+                        <li><a href="{% url 'profile_list' %}">Profiles</a></li>
+                        <li><a href="{% url 'connections' %}">Network</a></li>
+                        <li><a href="{% url 'events' %}">Events</a></li>
+                        <li><a href="{% url 'contribute' %}">Contribute</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Career Resources</a></li>
+                        <li><a href="#">Mentorship Program</a></li>
+                        <li><a href="#">Scholarship Opportunities</a></li>
+                        <li><a href="#">Alumni Directory</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p>Alumni Relations Office</p>
+                    <p>123 University Avenue</p>
+                    <p>City, State 12345</p>
+                    <p>Email: alumni@university.edu</p>
+                    <p>Phone: (123) 456-7890</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Alumni Connect Portal. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{% static 'script.js' %}"></script>
+</body>
+</html> 

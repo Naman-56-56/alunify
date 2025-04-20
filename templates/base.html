@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Alumni Connect Portal{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Alumni<span>Connect</span></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'profile_list' %}">Profiles</a></li>
+                    <li><a href="{% url 'connections' %}">Network</a></li>
+                    <li><a href="{% url 'events' %}">Events</a></li>
+                    <li><a href="{% url 'contribute' %}">Contribute</a></li>
+                </ul>
+            </nav>
+            <div class="theme-switcher">
+                <div class="theme-toggle" aria-label="Toggle dark mode"></div>
+                <div class="theme-selector">
+                  <div class="theme-option theme-option-light" data-theme="theme-light" aria-label="Light theme"></div>
+                  <div class="theme-option theme-option-blue" data-theme="theme-blue" aria-label="Blue theme"></div>
+                  <div class="theme-option theme-option-green" data-theme="theme-green" aria-label="Green theme"></div>
+                  <div class="theme-option theme-option-purple" data-theme="theme-purple" aria-label="Purple theme"></div>
+                  <div class="theme-option theme-option-high-contrast" data-theme="theme-high-contrast" aria-label="High contrast theme"></div>
+                </div>
+            </div>
+            <div class="user-menu">
+                {% if user.is_authenticated %}
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle">{{ user.get_full_name }}</a>
+                        <div class="dropdown-menu">
+                            <a href="{% url 'alumni_dashboard' %}">Dashboard</a>
+                            <a href="{% url 'my_profile' %}">My Profile</a>
+                            <a href="{% url 'logout' %}">Logout</a>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="auth-buttons">
+                        <a href="{% url 'login' %}" class="btn login-btn">Login</a>
+                        <a href="{% url 'register' %}" class="btn signup-btn">Sign Up</a>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <main class="{% block main_class %}{% endblock %}">
+        <div class="container">
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="message {{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <h3>Alumni<span>Connect</span></h3>
+                    <p>Connecting alumni, building communities, and fostering lifelong relationships with your alma mater.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">Facebook</a>
+                        <a href="#" class="social-link">Twitter</a>
+                        <a href="#" class="social-link">LinkedIn</a>
+                        <a href="#" class="social-link">Instagram</a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="{% url 'index' %}">Home</a></li>
+                        <li><a href="{% url 'profile_list' %}">Profiles</a></li>
+                        <li><a href="{% url 'connections' %}">Network</a></li>
+                        <li><a href="{% url 'events' %}">Events</a></li>
+                        <li><a href="{% url 'contribute' %}">Contribute</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p>Alumni Relations Office</p>
+                    <p>123 University Avenue</p>
+                    <p>City, State 12345</p>
+                    <p>Email: alumni@university.edu</p>
+                    <p>Phone: (123) 456-7890</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Alumni Connect Portal. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{% static 'script.js' %}"></script>
+</body>
+</html> 

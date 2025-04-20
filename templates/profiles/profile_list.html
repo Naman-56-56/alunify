@@ -1,0 +1,179 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Profiles | Alumni Connect Portal</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Alumni<span>Connect</span></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'profile_list' %}" class="active">Profiles</a></li>
+                    <li><a href="{% url 'connections' %}">Network</a></li>
+                    <li><a href="{% url 'events' %}">Events</a></li>
+                    <li><a href="{% url 'contribute' %}">Contribute</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'my_profile' %}" class="btn profile-btn">My Profile</a>
+                    <a href="{% url 'logout' %}" class="btn logout-btn">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn login-btn">Login</a>
+                    <a href="{% url 'register' %}" class="btn signup-btn">Sign Up</a>
+                {% endif %}
+            </div>
+            <div class="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Alumni Profiles</h1>
+            <p>Connect with fellow alumni and build your professional network</p>
+        </div>
+    </section>
+
+    <section class="profile-section">
+        <div class="container">
+            <div class="profile-tabs">
+                <a href="{% url 'profile_list' %}" class="tab-btn active">Alumni Directory</a>
+                <a href="{% url 'search_alumni' %}" class="tab-btn">Search Alumni</a>
+                {% if user.is_authenticated and user.is_alumni %}
+                    <a href="{% url 'my_profile' %}" class="tab-btn">My Profile</a>
+                {% endif %}
+            </div>
+
+            <div class="directory-filters">
+                <form method="get" action="{% url 'search_alumni' %}">
+                    <div class="filter-group">
+                        <label for="filter-year">Graduation Year</label>
+                        <select id="filter-year" name="graduation_year">
+                            <option value="">All Years</option>
+                            <option value="2020">2020-2025</option>
+                            <option value="2015">2015-2019</option>
+                            <option value="2010">2010-2014</option>
+                            <option value="2005">2005-2009</option>
+                            <option value="2000">2000-2004</option>
+                            <option value="1995">Before 2000</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-department">Department</label>
+                        <select id="filter-department" name="department">
+                            <option value="">All Departments</option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Business">Business</option>
+                            <option value="Engineering">Engineering</option>
+                            <option value="Arts & Humanities">Arts & Humanities</option>
+                            <option value="Science">Science</option>
+                            <option value="Medicine">Medicine</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="search-query">Search</label>
+                        <input type="text" id="search-query" name="q" placeholder="Name, Company, Position...">
+                    </div>
+                    <button type="submit" class="btn filter-btn">Search</button>
+                </form>
+            </div>
+
+            <div class="alumni-grid">
+                {% if alumni_list %}
+                    {% for alumni in alumni_list %}
+                        <div class="alumni-card">
+                            <div class="alumni-avatar">
+                                {% if alumni.profile_picture %}
+                                    <img src="{{ alumni.profile_picture.url }}" alt="{{ alumni.get_full_name }}">
+                                {% else %}
+                                    <img src="{% static 'images/default-avatar.jpg' %}" alt="{{ alumni.get_full_name }}">
+                                {% endif %}
+                            </div>
+                            <div class="alumni-info">
+                                <h3>{{ alumni.get_full_name }}</h3>
+                                <p class="alumni-position">{{ alumni.current_position }}{% if alumni.company %} at {{ alumni.company }}{% endif %}</p>
+                                <p class="alumni-graduation">Class of {{ alumni.graduation_year }}, {{ alumni.department }}</p>
+                                {% if alumni.location %}
+                                    <p class="alumni-location">{{ alumni.location }}</p>
+                                {% endif %}
+                            </div>
+                            <div class="alumni-actions">
+                                <a href="{% url 'profile_detail' alumni.id %}" class="btn view-profile-btn">View Profile</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="no-results">No alumni profiles found.</p>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <h3>Alumni<span>Connect</span></h3>
+                    <p>Connecting alumni, building communities, and fostering lifelong relationships with your alma mater.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">Facebook</a>
+                        <a href="#" class="social-link">Twitter</a>
+                        <a href="#" class="social-link">LinkedIn</a>
+                        <a href="#" class="social-link">Instagram</a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="{% url 'index' %}">Home</a></li>
+                        <li><a href="{% url 'profile_list' %}">Profiles</a></li>
+                        <li><a href="{% url 'connections' %}">Network</a></li>
+                        <li><a href="{% url 'events' %}">Events</a></li>
+                        <li><a href="{% url 'contribute' %}">Contribute</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Career Resources</a></li>
+                        <li><a href="#">Mentorship Program</a></li>
+                        <li><a href="#">Scholarship Opportunities</a></li>
+                        <li><a href="#">Alumni Directory</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p>Alumni Relations Office</p>
+                    <p>123 University Avenue</p>
+                    <p>City, State 12345</p>
+                    <p>Email: alumni@university.edu</p>
+                    <p>Phone: (123) 456-7890</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Alumni Connect Portal. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{% static 'script.js' %}"></script>
+</body>
+</html> 

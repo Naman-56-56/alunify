@@ -1,0 +1,50 @@
+{% extends 'auth_base.html' %}
+
+{% block title %}Register - Alumni Connect{% endblock %}
+
+{% block heading %}Create Account{% endblock %}
+
+{% block subtitle %}Join the Alumni Connect community{% endblock %}
+
+{% block content %}
+<form method="post" action="{% url 'register' %}" class="auth-form">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="full_name">Full Name</label>
+        <input type="text" id="full_name" name="full_name" required>
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+    </div>
+    <div class="form-group">
+        <label for="graduation_year">Graduation Year</label>
+        <input type="number" id="graduation_year" name="graduation_year" min="1900" max="2025" required>
+    </div>
+    <div class="form-group">
+        <label for="department">Department</label>
+        <select id="department" name="department" required>
+            <option value="">Select Department</option>
+            <option value="computer_science">Computer Science</option>
+            <option value="engineering">Engineering</option>
+            <option value="business">Business</option>
+            <option value="arts">Arts</option>
+            <option value="science">Science</option>
+            <option value="medicine">Medicine</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+    </div>
+    <div class="form-group">
+        <label for="confirm_password">Confirm Password</label>
+        <input type="password" id="confirm_password" name="confirm_password" required>
+    </div>
+    <button type="submit" class="btn primary-btn">Create Account</button>
+</form>
+{% endblock %}
+
+{% block footer %}
+<p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+{% endblock %} 

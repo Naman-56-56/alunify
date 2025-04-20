@@ -1,0 +1,581 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contribute | Alumni Connect Portal</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Alumni<span>Connect</span></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'profile' %}">Profiles</a></li>
+                    <li><a href="{% url 'connections' %}">Network</a></li>
+                    <li><a href="{% url 'events' %}">Events</a></li>
+                    <li><a href="{% url 'contribute' %}" class="active">Contribute</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <button class="btn login-btn">Login</button>
+                <button class="btn signup-btn">Sign Up</button>
+            </div>
+            <div class="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Contribute to Your Alma Mater</h1>
+            <p>Make a difference in the lives of current and future students</p>
+        </div>
+    </section>
+
+    <section class="contribute-section">
+        <div class="container">
+            <div class="contribute-tabs">
+                <button class="tab-btn active" data-tab="donate">Donate</button>
+                <button class="tab-btn" data-tab="volunteer">Volunteer</button>
+                <button class="tab-btn" data-tab="mentor">Mentor</button>
+                <button class="tab-btn" data-tab="career-support">Career Support</button>
+            </div>
+
+            <div class="tab-content active" id="donate">
+                <div class="donate-content">
+                    <h2>Support the Next Generation</h2>
+                    <p>Your financial contributions help fund scholarships, improve campus facilities, and support academic programs that shape the future of our institution.</p>
+                    
+                    <div class="donation-options">
+                        <div class="donation-card">
+                            <h3>Scholarship Fund</h3>
+                            <p>Help deserving students access quality education regardless of their financial circumstances.</p>
+                            <button class="btn primary-btn">Donate Now</button>
+                        </div>
+                        
+                        <div class="donation-card">
+                            <h3>Campus Development</h3>
+                            <p>Contribute to improving and expanding campus facilities and infrastructure.</p>
+                            <button class="btn primary-btn">Donate Now</button>
+                        </div>
+                        
+                        <div class="donation-card">
+                            <h3>Research Initiatives</h3>
+                            <p>Support groundbreaking research projects led by faculty and students.</p>
+                            <button class="btn primary-btn">Donate Now</button>
+                        </div>
+                        
+                        <div class="donation-card">
+                            <h3>Alumni Programs</h3>
+                            <p>Help fund alumni events, networking opportunities, and career development programs.</p>
+                            <button class="btn primary-btn">Donate Now</button>
+                        </div>
+                    </div>
+                    
+                    <div class="custom-donation">
+                        <h3>Custom Donation</h3>
+                        <p>Choose your own donation amount and designate where you'd like your contribution to go.</p>
+                        <form class="donation-form">
+                            <div class="form-group">
+                                <label for="donation-amount">Donation Amount</label>
+                                <input type="number" id="donation-amount" placeholder="Enter amount" min="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="donation-frequency">Frequency</label>
+                                <select id="donation-frequency" required>
+                                    <option value="one-time">One-time</option>
+                                    <option value="monthly">Monthly</option>
+                                    <option value="quarterly">Quarterly</option>
+                                    <option value="annually">Annually</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="donation-designation">Designation</label>
+                                <select id="donation-designation" required>
+                                    <option value="greatest-need">Area of Greatest Need</option>
+                                    <option value="scholarships">Scholarships</option>
+                                    <option value="facilities">Campus Facilities</option>
+                                    <option value="research">Research</option>
+                                    <option value="athletics">Athletics</option>
+                                    <option value="arts">Arts Programs</option>
+                                    <option value="alumni">Alumni Programs</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn primary-btn">Proceed to Donation</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="volunteer">
+                <div class="volunteer-content">
+                    <h2>Give Your Time and Expertise</h2>
+                    <p>There are many ways to volunteer your time and skills to support your alma mater and current students.</p>
+                    
+                    <div class="volunteer-options">
+                        <div class="volunteer-card">
+                            <h3>Event Support</h3>
+                            <p>Help organize and run alumni events, reunions, and campus activities.</p>
+                            <ul class="volunteer-details">
+                                <li>Assist with event planning and logistics</li>
+                                <li>Welcome and register attendees</li>
+                                <li>Provide on-site support during events</li>
+                                <li>Help with post-event follow-up</li>
+                            </ul>
+                            <button class="btn primary-btn">Sign Up</button>
+                        </div>
+                        
+                        <div class="volunteer-card">
+                            <h3>Alumni Ambassador</h3>
+                            <p>Represent your alma mater in your local community or industry.</p>
+                            <ul class="volunteer-details">
+                                <li>Connect with prospective students</li>
+                                <li>Organize local alumni gatherings</li>
+                                <li>Represent the university at local events</li>
+                                <li>Share university news and updates</li>
+                            </ul>
+                            <button class="btn primary-btn">Sign Up</button>
+                        </div>
+                        
+                        <div class="volunteer-card">
+                            <h3>Guest Speaker</h3>
+                            <p>Share your professional experience and insights with current students.</p>
+                            <ul class="volunteer-details">
+                                <li>Classroom presentations</li>
+                                <li>Career panel discussions</li>
+                                <li>Workshop facilitation</li>
+                                <li>Virtual or in-person speaking engagements</li>
+                            </ul>
+                            <button class="btn primary-btn">Sign Up</button>
+                        </div>
+                        
+                        <div class="volunteer-card">
+                            <h3>Alumni Board</h3>
+                            <p>Serve on the alumni association board or committee.</p>
+                            <ul class="volunteer-details">
+                                <li>Help shape alumni programs and initiatives</li>
+                                <li>Provide strategic guidance</li>
+                                <li>Represent alumni interests</li>
+                                <li>Attend regular board meetings</li>
+                            </ul>
+                            <button class="btn primary-btn">Learn More</button>
+                        </div>
+                    </div>
+                    
+                    <div class="custom-volunteer">
+                        <h3>Suggest a Volunteer Opportunity</h3>
+                        <p>Have an idea for how you'd like to volunteer? Let us know!</p>
+                        <form class="volunteer-form">
+                            <div class="form-group">
+                                <label for="volunteer-idea">Your Volunteer Idea</label>
+                                <textarea id="volunteer-idea" rows="4" placeholder="Describe how you'd like to volunteer" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="volunteer-availability">Availability</label>
+                                <select id="volunteer-availability" required>
+                                    <option value="">Select your availability</option>
+                                    <option value="weekly">Weekly</option>
+                                    <option value="monthly">Monthly</option>
+                                    <option value="quarterly">Quarterly</option>
+                                    <option value="as-needed">As needed</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn primary-btn">Submit Idea</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="mentor">
+                <div class="mentor-content">
+                    <h2>Share Your Knowledge and Experience</h2>
+                    <p>Guide current students and recent graduates as they navigate their academic and professional journeys.</p>
+                    
+                    <div class="mentorship-options">
+                        <div class="mentorship-card">
+                            <h3>One-on-One Mentoring</h3>
+                            <p>Build a meaningful relationship with a student or recent graduate in your field.</p>
+                            <ul class="mentorship-details">
+                                <li>Regular meetings (virtual or in-person)</li>
+                                <li>Career guidance and advice</li>
+                                <li>Professional development support</li>
+                                <li>Networking opportunities</li>
+                            </ul>
+                            <button class="btn primary-btn">Become a Mentor</button>
+                        </div>
+                        
+                        <div class="mentorship-card">
+                            <h3>Group Mentoring</h3>
+                            <p>Mentor a small group of students with similar interests or career goals.</p>
+                            <ul class="mentorship-details">
+                                <li>Monthly group sessions</li>
+                                <li>Industry insights and trends</li>
+                                <li>Collaborative problem-solving</li>
+                                <li>Peer learning opportunities</li>
+                            </ul>
+                            <button class="btn primary-btn">Become a Mentor</button>
+                        </div>
+                        
+                        <div class="mentorship-card">
+                            <h3>Flash Mentoring</h3>
+                            <p>Provide short-term, focused guidance on specific topics or challenges.</p>
+                            <ul class="mentorship-details">
+                                <li>One-time or limited sessions</li>
+                                <li>Specific skill development</li>
+                                <li>Resume and interview preparation</li>
+                                <li>Project-based guidance</li>
+                            </ul>
+                            <button class="btn primary-btn">Become a Mentor</button>
+                        </div>
+                        
+                        <div class="mentorship-card">
+                            <h3>Career Shadowing</h3>
+                            <p>Allow students to observe you in your professional environment.</p>
+                            <ul class="mentorship-details">
+                                <li>Day-in-the-life experiences</li>
+                                <li>Workplace culture exposure</li>
+                                <li>Professional interactions</li>
+                                <li>Industry-specific insights</li>
+                            </ul>
+                            <button class="btn primary-btn">Offer Shadowing</button>
+                        </div>
+                    </div>
+                    
+                    <div class="mentor-application">
+                        <h3>Mentor Application</h3>
+                        <p>Ready to make a difference in a student's life? Apply to become a mentor today.</p>
+                        <form class="mentor-form">
+                            <div class="form-group">
+                                <label for="mentor-expertise">Areas of Expertise</label>
+                                <input type="text" id="mentor-expertise" placeholder="e.g., Marketing, Software Development, Finance" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="mentor-experience">Years of Professional Experience</label>
+                                <select id="mentor-experience" required>
+                                    <option value="">Select years of experience</option>
+                                    <option value="1-3">1-3 years</option>
+                                    <option value="4-7">4-7 years</option>
+                                    <option value="8-12">8-12 years</option>
+                                    <option value="13+">13+ years</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="mentor-type">Preferred Mentoring Type</label>
+                                <select id="mentor-type" required>
+                                    <option value="">Select mentoring type</option>
+                                    <option value="one-on-one">One-on-One Mentoring</option>
+                                    <option value="group">Group Mentoring</option>
+                                    <option value="flash">Flash Mentoring</option>
+                                    <option value="shadowing">Career Shadowing</option>
+                                    <option value="any">Any Type</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="mentor-motivation">Why do you want to be a mentor?</label>
+                                <textarea id="mentor-motivation" rows="4" required></textarea>
+                            </div>
+                            <button type="submit" class="btn primary-btn">Submit Application</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="career-support">
+                <div class="career-support-content">
+                    <h2>Help Students Launch Their Careers</h2>
+                    <p>Provide career opportunities and professional development support for current students and fellow alumni.</p>
+                    
+                    <div class="career-options">
+                        <div class="career-card">
+                            <h3>Job Opportunities</h3>
+                            <p>Share job openings and internships at your organization.</p>
+                            <form class="job-form">
+                                <div class="form-group">
+                                    <label for="job-title">Job Title</label>
+                                    <input type="text" id="job-title" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="job-company">Company</label>
+                                    <input type="text" id="job-company" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="job-location">Location</label>
+                                    <input type="text" id="job-location" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="job-type">Job Type</label>
+                                    <select id="job-type" required>
+                                        <option value="">Select job type</option>
+                                        <option value="full-time">Full-time</option>
+                                        <option value="part-time">Part-time</option>
+                                        <option value="contract">Contract</option>
+                                        <option value="internship">Internship</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="job-description">Job Description</label>
+                                    <textarea id="job-description" rows="4" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="job-requirements">Requirements</label>
+                                    <textarea id="job-requirements" rows="4" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="job-link">Application Link</label>
+                                    <input type="url" id="job-link" required>
+                                </div>
+                                <button type="submit" class="btn primary-btn">Post Job</button>
+                            </form>
+                        </div>
+                        
+                        <div class="career-card">
+                            <h3>Resume Review</h3>
+                            <p>Volunteer to review student and alumni resumes in your field of expertise.</p>
+                            <div class="resume-review-options">
+                                <div class="form-group">
+                                    <label for="resume-field">Field of Expertise</label>
+                                    <select id="resume-field" required>
+                                        <option value="">Select your field</option>
+                                        <option value="technology">Technology</option>
+                                        <option value="business">Business</option>
+                                        <option value="healthcare">Healthcare</option>
+                                        <option value="education">Education</option>
+                                        <option value="engineering">Engineering</option>
+                                        <option value="arts">Arts & Design</option>
+                                        <option value="science">Science & Research</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="resume-availability">Monthly Availability</label>
+                                    <select id="resume-availability" required>
+                                        <option value="">Select number of resumes</option>
+                                        <option value="1-2">1-2 resumes</option>
+                                        <option value="3-5">3-5 resumes</option>
+                                        <option value="6-10">6-10 resumes</option>
+                                        <option value="10+">10+ resumes</option>
+                                    </select>
+                                </div>
+                                <button class="btn primary-btn">Volunteer</button>
+                            </div>
+                        </div>
+                        
+                        <div class="career-card">
+                            <h3>Mock Interviews</h3>
+                            <p>Help students prepare for job interviews by conducting practice sessions.</p>
+                            <div class="mock-interview-options">
+                                <div class="form-group">
+                                    <label for="interview-industry">Industry</label>
+                                    <select id="interview-industry" required>
+                                        <option value="">Select industry</option>
+                                        <option value="technology">Technology</option>
+                                        <option value="finance">Finance</option>
+                                        <option value="healthcare">Healthcare</option>
+                                        <option value="education">Education</option>
+                                        <option value="manufacturing">Manufacturing</option>
+                                        <option value="retail">Retail</option>
+                                        <option value="media">Media & Entertainment</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="interview-type">Interview Type</label>
+                                    <select id="interview-type" required>
+                                        <option value="">Select interview type</option>
+                                        <option value="behavioral">Behavioral</option>
+                                        <option value="technical">Technical</option>
+                                        <option value="case">Case Study</option>
+                                        <option value="panel">Panel</option>
+                                        <option value="any">Any Type</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="interview-frequency">Frequency</label>
+                                    <select id="interview-frequency" required>
+                                        <option value="">Select frequency</option>
+                                        <option value="weekly">Weekly</option>
+                                        <option value="monthly">Monthly</option>
+                                        <option value="quarterly">Quarterly</option>
+                                    </select>
+                                </div>
+                                <button class="btn primary-btn">Volunteer</button>
+                            </div>
+                        </div>
+                        
+                        <div class="career-card">
+                            <h3>Networking Events</h3>
+                            <p>Host or sponsor networking events for students and alumni in your industry or region.</p>
+                            <div class="networking-options">
+                                <div class="form-group">
+                                    <label for="event-type">Event Type</label>
+                                    <select id="event-type" required>
+                                        <option value="">Select event type</option>
+                                        <option value="mixer">Networking Mixer</option>
+                                        <option value="panel">Industry Panel</option>
+                                        <option value="roundtable">Roundtable Discussion</option>
+                                        <option value="career-fair">Career Fair</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="event-format">Format</label>
+                                    <select id="event-format" required>
+                                        <option value="">Select format</option>
+                                        <option value="in-person">In-Person</option>
+                                        <option value="virtual">Virtual</option>
+                                        <option value="hybrid">Hybrid</option>
+                                    </select>
+                                </div>
+                                <button class="btn primary-btn">Propose Event</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="impact-section">
+        <div class="container">
+            <h2>Your Impact</h2>
+            <p>See how alumni contributions are making a difference in the lives of students and the future of our institution.</p>
+            
+            <div class="impact-stats">
+                <div class="impact-stat">
+                    <h3>$2.5M+</h3>
+                    <p>Raised for scholarships</p>
+                </div>
+                <div class="impact-stat">
+                    <h3>500+</h3>
+                    <p>Active alumni mentors</p>
+                </div>
+                <div class="impact-stat">
+                    <h3>1,200+</h3>
+                    <p>Job opportunities shared</p>
+                </div>
+                <div class="impact-stat">
+                    <h3>5,000+</h3>
+                    <p>Students supported</p>
+                </div>
+            </div>
+            
+            <div class="testimonial-slider">
+                <div class="testimonial-card active">
+                    <div class="testimonial-content">
+                        <p>"The scholarship I received from alumni donations allowed me to focus on my studies without financial stress. I'm now working at my dream job and giving back to help other students like me."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="images/testimonial-1.jpg" alt="Maria Chen">
+                        <div class="author-info">
+                            <h4>Maria Chen</h4>
+                            <p>Class of 2020, Engineering</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"My alumni mentor helped me navigate the challenges of starting my career. Their guidance was invaluable, and I'm proud to now be mentoring current students myself."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="images/testimonial-2.jpg" alt="Jason Williams">
+                        <div class="author-info">
+                            <h4>Jason Williams</h4>
+                            <p>Class of 2018, Business</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"The networking event hosted by alumni in my field connected me with my current employer. I'm grateful for the alumni who take time to create opportunities for students."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="images/testimonial-3.jpg" alt="Aisha Johnson">
+                        <div class="author-info">
+                            <h4>Aisha Johnson</h4>
+                            <p>Class of 2022, Computer Science</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-controls">
+                <button class="prev-btn" id="prev-testimonial">←</button>
+                <div class="testimonial-dots">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+                <button class="next-btn" id="next-testimonial">→</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <h3>Alumni<span>Connect</span></h3>
+                    <p>Connecting alumni, building communities, and fostering lifelong relationships with your alma mater.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">Facebook</a>
+                        <a href="#" class="social-link">Twitter</a>
+                        <a href="#" class="social-link">LinkedIn</a>
+                        <a href="#" class="social-link">Instagram</a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="{% url 'index' %}">Home</a></li>
+                        <li><a href="{% url 'profile' %}">Profiles</a></li>
+                        <li><a href="{% url 'connections' %}">Network</a></li>
+                        <li><a href="{% url 'events' %}">Events</a></li>
+                        <li><a href="{% url 'contribute' %}">Contribute</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Career Resources</a></li>
+                        <li><a href="#">Mentorship Program</a></li>
+                        <li><a href="#">Scholarship Opportunities</a></li>
+                        <li><a href="#">Alumni Directory</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p>Alumni Relations Office</p>
+                    <p>123 University Avenue</p>
+                    <p>City, State 12345</p>
+                    <p>Email: alumni@university.edu</p>
+                    <p>Phone: (123) 456-7890</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Alumni Connect Portal. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="contribution-empty">
+        <img src="{% static 'images/contribution-icon.svg' %}" alt="Contribution" class="empty-icon">
+        <h3>No Contributions Yet</h3>
+        <p>You haven't made any contributions yet.</p>
+        <button class="btn primary-btn">Make a Contribution</button>
+    </div>
+
+    <script src="{% static 'main.js' %}"></script>
+    <script src="{% static 'contribute.js' %}"></script>
+</body>
+</html>
