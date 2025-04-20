@@ -33,7 +33,6 @@ DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1,alunify.onrender.com').split(',') if os.environ.get('ALLOWED_HOSTS') else ['localhost', '127.0.0.1', 'alunify.onrender.com']
 
-
 # Application definition
 
 INSTALLED_APPS = [
