@@ -157,3 +157,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # Email settings
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'noreply@alunify.com'
+
+
+CSRF_TRUSTED_ORIGINS = ['https://alunify.onrender.com']
+
